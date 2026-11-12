@@ -1,0 +1,1507 @@
+/* ==========================================================================
+   CSS COMPONENTES EDITORIALES, PROTOCOLO DE EJERCICIOS Y ESTILO CÓDICE
+   Cuaderno Digital Interactivo: Física 3 - M.A.S. & Movimiento Ondulatorio
+   Tema: Manuscrito y Tratado Clásico (CERO FONDOS BLANCOS)
+   ========================================================================== */
+
+/* ==========================================================================
+   CABECERA SUPERIOR Y MARCA
+   ========================================================================== */
+.app-header {
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+  top: auto;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: rgba(18, 14, 11, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 155, 39, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #c59b27, #8b5a2b);
+  border: 1px solid rgba(253, 224, 71, 0.4);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(197, 155, 39, 0.35);
+}
+
+.brand-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f7eedf;
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 0.78rem;
+  color: #cbbba6;
+  display: block;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(197, 155, 39, 0.16);
+  border: 1px solid rgba(197, 155, 39, 0.45);
+  color: #fde047;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.team-badge-pill:hover {
+  background: rgba(197, 155, 39, 0.3);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.header-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(197, 155, 39, 0.3);
+  color: #f0e6d6;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-btn:hover {
+  background: rgba(197, 155, 39, 0.25);
+  color: #fff;
+}
+
+/* ==========================================================================
+   BARRA DE PROGRESO DE LECTURA EDITORIAL
+   ========================================================================== */
+.reading-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(120, 85, 55, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #c59b27, #ea580c);
+  transition: width 0.3s ease;
+}
+
+/* ==========================================================================
+   ENCABEZADO DE CADA PÁGINA (PAGE HEADER STRIP)
+   ========================================================================== */
+.page-header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.3);
+}
+
+.page-chapter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #7a1f29;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-seq-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #8b5a2b;
+  background: rgba(139, 90, 43, 0.12);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 90, 43, 0.25);
+}
+
+.page-content-scroll {
+  flex: 1;
+  width: 100%;
+}
+
+.page-title {
+  font-family: var(--font-serif-title, 'Cinzel', Georgia, serif);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #2b170c;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.page-subtitle {
+  font-family: var(--font-serif-body, 'Playfair Display', Georgia, serif);
+  font-size: 1.02rem;
+  color: #5c4533;
+  margin-bottom: 22px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   PORTADA Y ELEMENTOS DEL CÓDICE RENACENTISTA
+   ========================================================================== */
+.cover-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 30px;
+  box-sizing: border-box;
+}
+
+.cover-badge-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.institution-pill, .academic-term {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(30, 22, 16, 0.85);
+  color: #f7eedf;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  border: 1px solid rgba(197, 155, 39, 0.45);
+}
+
+.antique-codex-cartouche {
+  background: rgba(28, 20, 14, 0.90);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(197, 155, 39, 0.55);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 0 25px rgba(197, 155, 39, 0.15);
+  border-radius: 16px;
+  padding: 32px 36px;
+  text-align: center;
+  max-width: 660px;
+  width: 95%;
+  margin: auto;
+}
+
+.cover-pretitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d4a64f;
+  font-size: 0.86rem;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.cover-title.antique-title {
+  font-family: var(--font-serif-title, 'Cinzel Decorative', 'Cinzel', serif);
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #fff6e8;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  margin: 10px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.antique-flourish-divider {
+  margin: 12px auto;
+  width: 100%;
+  max-width: 320px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flourish-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cover-subtitle-latin {
+  font-family: var(--font-serif-body, 'IM Fell English', Georgia, serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #e5ccae;
+  margin: 8px 0 14px;
+}
+
+.cover-description {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: #cbb9a3;
+  margin-bottom: 22px;
+}
+
+.cover-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-open-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #c59b27 0%, #8b5a2b 100%);
+  color: #ffffff;
+  border: 1px solid #fde047;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(197, 155, 39, 0.45);
+  transition: all 0.25s ease;
+}
+
+.btn-open-book:hover {
+  background: linear-gradient(135deg, #d8ac32 0%, #9e6732 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(197, 155, 39, 0.6);
+}
+
+.cover-team-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #d4a64f;
+}
+
+.cover-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 24px;
+  padding: 12px 18px;
+  background: rgba(25, 18, 12, 0.85);
+  border: 1px solid rgba(197, 155, 39, 0.35);
+  border-radius: 10px;
+}
+
+.cover-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cover-authors-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #d4a64f;
+  text-transform: uppercase;
+}
+
+.cover-authors-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cover-author-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f7eedf;
+}
+
+.cover-colophon-note {
+  font-size: 0.76rem;
+  color: #a8947f;
+  margin: 0;
+}
+
+.cover-edition-stamp {
+  text-align: right;
+}
+
+.stamp-border {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-weight: 800;
+  font-size: 0.86rem;
+  color: #d4a64f;
+  border: 1px dashed rgba(197, 155, 39, 0.6);
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   TABLAS CIENTÍFICAS (SIN FONDOS BLANCOS - ESTILO PERGAMINO VINTAGE)
+   ========================================================================== */
+.table-scientific-container {
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  background: rgba(246, 237, 223, 0.80);
+  box-shadow: 0 4px 16px rgba(60, 40, 20, 0.08);
+}
+
+.table-caption-top {
+  padding: 10px 16px;
+  font-family: var(--font-serif-body, 'Playfair Display', Georgia, serif);
+  font-size: 0.95rem;
+  color: #4a2c11;
+  background: rgba(212, 166, 79, 0.18);
+  border-bottom: 1px solid rgba(139, 90, 43, 0.25);
+}
+
+.table-scientific {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.90rem;
+  color: #2b1a0e;
+  background: transparent;
+}
+
+.table-scientific thead tr {
+  background: rgba(212, 166, 79, 0.25);
+  border-bottom: 2px solid rgba(139, 90, 43, 0.4);
+}
+
+.table-scientific th {
+  padding: 10px 14px;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #5c1822;
+  text-align: left;
+  letter-spacing: 0.03em;
+}
+
+.table-scientific tbody tr {
+  border-bottom: 1px solid rgba(139, 90, 43, 0.18);
+  transition: background 0.2s ease;
+}
+
+.table-scientific tbody tr:nth-child(even) {
+  background: rgba(139, 90, 43, 0.05);
+}
+
+.table-scientific tbody tr:hover {
+  background: rgba(197, 155, 39, 0.12);
+}
+
+.table-scientific td {
+  padding: 10px 14px;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   TARJETAS DE CONCEPTOS Y DEMOSTRACIONES (SIN FONDOS BLANCOS)
+   ========================================================================== */
+.concept-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.concept-card {
+  background: rgba(246, 238, 225, 0.82);
+  border: 1px solid rgba(139, 90, 43, 0.32);
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 14px rgba(60, 40, 20, 0.07);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.concept-card:hover {
+  border-color: #c59b27;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(60, 40, 20, 0.12);
+}
+
+.concept-card h4 {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #7a1f29;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.concept-card p {
+  font-size: 0.94rem;
+  color: #382518;
+  line-height: 1.62;
+  margin: 0;
+}
+
+/* Tarjeta de Demostración Formal (Proof Card) */
+.proof-card {
+  margin: 22px 0;
+  background: rgba(247, 240, 227, 0.86);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(60, 40, 20, 0.08);
+  padding: 20px 24px;
+}
+
+.proof-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.25);
+}
+
+.proof-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(139, 90, 43, 0.15);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b5a2b;
+}
+
+.proof-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #7a1f29;
+  margin: 0;
+}
+
+.proof-step {
+  margin: 16px 0;
+  padding-left: 14px;
+  border-left: 3px solid #c59b27;
+}
+
+.proof-step-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #8b5a2b;
+  margin-bottom: 6px;
+}
+
+.proof-protocol-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(238, 226, 209, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.28);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   BLOQUES DE ECUACIONES TIPOGRÁFICAS EN KATEX
+   ========================================================================== */
+.equation-block {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: rgba(244, 235, 220, 0.70);
+  border: 1px solid rgba(139, 90, 43, 0.28);
+  border-left: 4px solid #8b5a2b;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: inset 0 0 10px rgba(139, 90, 43, 0.04);
+}
+
+.equation-math, .equation-content {
+  flex: 1;
+  text-align: center;
+  font-size: 1.12rem;
+  color: #1f140a;
+  overflow-x: auto;
+}
+
+.equation-number, .equation-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #8b5a2b;
+  background: rgba(139, 90, 43, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   FIGURAS Y EPÍGRAFES
+   ========================================================================== */
+.figure-container {
+  margin: 16px 0 24px;
+  text-align: center;
+}
+
+.figure-caption {
+  font-family: var(--font-serif-body, 'Playfair Display', Georgia, serif);
+  font-size: 0.90rem;
+  color: #5c4331;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.figure-number {
+  font-weight: 700;
+  color: #7a1f29;
+  font-style: normal;
+}
+
+/* ==========================================================================
+   MAPA MENTAL CONCEPTUAL INTERACTIVO EN SVG
+   ========================================================================== */
+.mindmap-container {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  background: radial-gradient(circle at 50% 50%, #171d28 0%, #0c1017 100%);
+  border: 2px solid rgba(197, 155, 39, 0.45);
+  border-radius: var(--border-radius-md, 12px);
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.85), 0 8px 30px rgba(0, 0, 0, 0.35);
+  margin: 16px 0 24px;
+}
+
+.mindmap-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  user-select: none;
+  background-color: transparent;
+}
+
+.mindmap-svg:active, .mindmap-svg.dragging {
+  cursor: grabbing;
+}
+
+.mindmap-toolbar {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
+  background: rgba(14, 18, 26, 0.85);
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid rgba(197, 155, 39, 0.35);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.mindmap-toolbar .dock-btn {
+  background: rgba(26, 34, 48, 0.95) !important;
+  border: 1px solid rgba(197, 155, 39, 0.55) !important;
+  color: #f7eedf !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+.mindmap-toolbar .dock-btn svg {
+  stroke: #f7eedf !important;
+  stroke-width: 2.2px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mindmap-toolbar .dock-btn:hover {
+  background: rgba(197, 155, 39, 0.45) !important;
+  border-color: #f59e0b !important;
+  transform: translateY(-1px) !important;
+}
+
+.mindmap-info-card {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  max-width: 480px;
+  background: rgba(15, 20, 29, 0.96);
+  border: 1.5px solid var(--accent-gold, #c59b27);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+  z-index: 25;
+  backdrop-filter: blur(14px);
+  display: none;
+  color: #ede3d3;
+  animation: mindmapCardFade 0.25s ease-out;
+}
+
+.mindmap-info-card.active {
+  display: block;
+}
+
+@keyframes mindmapCardFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mindmap-node {
+  transition: transform 0.2s ease;
+}
+
+.mindmap-node:hover circle {
+  filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.9)) !important;
+}
+
+/* ==========================================================================
+   LÍNEA DE TIEMPO HISTÓRICA (SIN FONDOS BLANCOS)
+   ========================================================================== */
+.timeline-container {
+  position: relative;
+  margin: 28px 0;
+  padding-left: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 9px;
+  width: 3px;
+  background: linear-gradient(180deg, #c59b27, #8b5a2b, #7a1f29);
+  border-radius: 2px;
+}
+
+.timeline-item-wrapper {
+  position: relative;
+}
+
+.timeline-marker-dot {
+  position: absolute;
+  left: -32px;
+  top: 14px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #c59b27;
+  border: 3px solid #1c1510;
+  box-shadow: 0 0 8px rgba(197, 155, 39, 0.7);
+}
+
+.timeline-item-card {
+  background: rgba(246, 238, 225, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.32);
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 14px rgba(60, 40, 20, 0.07);
+  transition: all 0.25s ease;
+}
+
+.timeline-item-card:hover {
+  transform: translateX(4px);
+  border-color: #c59b27;
+}
+
+.timeline-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2b170c;
+  margin: 0;
+}
+
+.timeline-year-pill {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #7a1f29;
+  background: rgba(122, 31, 41, 0.12);
+  border: 1px solid rgba(122, 31, 41, 0.3);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.timeline-desc {
+  font-size: 0.93rem;
+  color: #3b281a;
+  line-height: 1.62;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   PROTOCOLO DIDÁCTICO DE 5 PASOS (SIN FONDOS BLANCOS)
+   ========================================================================== */
+.problem-protocol-container, .exercise-protocol-box {
+  margin: 24px 0;
+  background: rgba(246, 238, 226, 0.85);
+  border-radius: 10px;
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  box-shadow: 0 6px 20px rgba(60, 40, 20, 0.08);
+  overflow: hidden;
+}
+
+.problem-statement-box, .exercise-statement {
+  padding: 18px 22px;
+  background: rgba(239, 229, 214, 0.75);
+  border-bottom: 1px dashed rgba(139, 90, 43, 0.3);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #261609;
+}
+
+.problem-statement-title, .exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #7a1f29;
+}
+
+.problem-badge-pill {
+  background: #7a1f29;
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.phase-card, .protocol-step-card {
+  margin: 14px 18px;
+  background: rgba(250, 245, 236, 0.88);
+  border: 1px solid rgba(139, 90, 43, 0.22);
+  border-radius: 8px;
+  padding: 14px 18px;
+  transition: all 0.25s ease;
+}
+
+.phase-card:hover, .protocol-step-card:hover {
+  box-shadow: 0 4px 14px rgba(60, 40, 20, 0.08);
+}
+
+.phase-title, .step-card-header {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Colores de las 5 Fases */
+.phase-datos, .step-datos {
+  border-left: 5px solid #1d4ed8;
+}
+.phase-datos .phase-title, .step-datos .step-card-header {
+  color: #1d4ed8;
+}
+.val-dato {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.phase-incognitas, .step-incognitas {
+  border-left: 5px solid #dc2626;
+}
+.phase-incognitas .phase-title, .step-incognitas .step-card-header {
+  color: #dc2626;
+}
+.val-incognita {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.phase-formulas, .step-modelos {
+  border-left: 5px solid #8b5a2b;
+}
+.phase-formulas .phase-title, .step-modelos .step-card-header {
+  color: #8b5a2b;
+}
+
+.phase-despeje, .step-despeje {
+  border-left: 5px solid #7c3aed;
+}
+.phase-despeje .phase-title, .step-despeje .step-card-header {
+  color: #7c3aed;
+}
+.val-calculado {
+  color: #ea580c;
+  font-weight: 800;
+}
+
+.phase-validacion, .step-validacion {
+  border-left: 5px solid #16a34a;
+}
+.phase-validacion .phase-title, .step-validacion .step-card-header {
+  color: #16a34a;
+}
+
+.result-display-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 14px;
+  margin: 6px 0;
+  background: rgba(234, 88, 12, 0.08);
+  border: 1px solid rgba(234, 88, 12, 0.28);
+  border-radius: 6px;
+}
+
+.result-display-math {
+  flex: 1;
+}
+
+/* ==========================================================================
+   COLECCIÓN DE EJERCICIOS PRÁCTICOS DE CÁTEDRA (EJ. 1, 2, 4, 10, 17)
+   ========================================================================== */
+.exercises-toolbar-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(244, 235, 220, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  border-radius: 8px;
+  margin-bottom: 22px;
+}
+
+.exercises-quick-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.exercise-nav-pill {
+  padding: 5px 12px;
+  background: rgba(139, 90, 43, 0.12);
+  border: 1px solid rgba(139, 90, 43, 0.3);
+  border-radius: 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2b170c;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.exercise-nav-pill:hover {
+  background: #c59b27;
+  color: #fff;
+}
+
+.btn-toggle-all-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(122, 31, 41, 0.12);
+  border: 1px solid rgba(122, 31, 41, 0.35);
+  color: #7a1f29;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-all-steps:hover {
+  background: #7a1f29;
+  color: #fff;
+}
+
+.vintage-exercises-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.vintage-exercise-card {
+  background: rgba(247, 240, 227, 0.86);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  border-radius: 10px;
+  padding: 22px 26px;
+  box-shadow: 0 6px 22px rgba(60, 40, 20, 0.08);
+}
+
+.vintage-exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.25);
+}
+
+.vintage-exercise-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #7a1f29;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.vintage-exercise-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #2b170c;
+  margin: 0;
+}
+
+.vintage-exercise-theme-tag {
+  font-size: 0.82rem;
+  color: #8b5a2b;
+  font-style: italic;
+}
+
+.vintage-statement-box {
+  background: rgba(239, 229, 214, 0.70);
+  border: 1px solid rgba(139, 90, 43, 0.25);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: #2b1a0e;
+}
+
+.vintage-data-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vintage-data-chip {
+  background: rgba(29, 78, 216, 0.08);
+  border: 1px solid rgba(29, 78, 216, 0.3);
+  color: #1d4ed8;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+}
+
+.vintage-procedure-section {
+  margin: 14px 0;
+  padding-left: 14px;
+  border-left: 3px solid #c59b27;
+}
+
+.vintage-procedure-section h4 {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #8b5a2b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.vintage-answer-stamp {
+  margin: 18px 0;
+  padding: 12px 18px;
+  background: rgba(212, 166, 79, 0.15);
+  border: 2px dashed rgba(197, 155, 39, 0.6);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.vintage-answer-stamp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vintage-answer-stamp-seal {
+  width: 28px;
+  height: 28px;
+  background: #7a1f29;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vintage-answer-stamp-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-weight: 800;
+  color: #7a1f29;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.vintage-answer-stamp-values {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vintage-answer-pill {
+  padding: 5px 14px;
+  background: rgba(234, 88, 12, 0.12);
+  border: 1px solid #ea580c;
+  color: #ea580c;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+/* Acordeón de Pasos a Paso */
+.step-toggle-wrapper {
+  margin-top: 14px;
+}
+
+.btn-step-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 90, 43, 0.12);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  color: #5c3514;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-step-toggle:hover {
+  background: #c59b27;
+  color: #fff;
+}
+
+.step-explanation-box {
+  display: none;
+  margin-top: 14px;
+  padding: 16px 20px;
+  background: rgba(242, 233, 218, 0.75);
+  border: 1px solid rgba(139, 90, 43, 0.28);
+  border-radius: 8px;
+}
+
+.step-explanation-box.active {
+  display: block;
+  animation: fadeInCover 0.3s ease-out;
+}
+
+.step-explanation-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7a1f29;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-flow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-flow-item {
+  padding: 10px 14px;
+  background: rgba(250, 245, 236, 0.85);
+  border-left: 3px solid #8b5a2b;
+  border-radius: 0 6px 6px 0;
+}
+
+.step-flow-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.step-number-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #8b5a2b;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.step-flow-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #2b170c;
+  margin: 0;
+}
+
+.step-flow-body {
+  font-size: 0.90rem;
+  line-height: 1.6;
+  color: #3b281a;
+}
+
+/* ==========================================================================
+   GLOSARIO Y BUSCADOR (SIN FONDOS BLANCOS)
+   ========================================================================== */
+.glossary-search-box, .glossary-search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+
+.glossary-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #8b5a2b;
+  pointer-events: none;
+}
+
+.glossary-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 90, 43, 0.4);
+  background: rgba(252, 246, 237, 0.9);
+  color: #2b170c;
+  font-size: 0.92rem;
+  box-sizing: border-box;
+}
+
+.glossary-search-input:focus {
+  outline: none;
+  border-color: #c59b27;
+  box-shadow: 0 0 8px rgba(197, 155, 39, 0.4);
+}
+
+.glossary-card {
+  background: rgba(246, 238, 226, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.3);
+  border-radius: 8px;
+  padding: 14px 18px;
+  transition: all 0.25s ease;
+}
+
+.glossary-card:hover {
+  border-color: #c59b27;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(60, 40, 20, 0.08);
+}
+
+.glossary-card h4, .glossary-term {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7a1f29;
+  margin-bottom: 6px;
+}
+
+.glossary-card p {
+  font-size: 0.88rem;
+  color: #3b281a;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ==========================================================================
+   REFERENCIAS APA 7 Y COLOFÓN
+   ========================================================================== */
+.references-codex-container {
+  background: rgba(246, 238, 226, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.reference-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #2b170c;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.15);
+}
+
+.reference-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.colophon-codex-card {
+  background: rgba(242, 232, 218, 0.88);
+  border: 2px dashed rgba(197, 155, 39, 0.6);
+  border-radius: 10px;
+  padding: 24px 28px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.colophon-wax-seal {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #7a1f29, #52141a);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  box-shadow: 0 4px 12px rgba(122, 31, 41, 0.4);
+}
+
+.colophon-title {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2b170c;
+  margin-bottom: 4px;
+}
+
+.colophon-motto {
+  font-family: var(--font-serif-body, 'IM Fell English', Georgia, serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: #8b5a2b;
+  margin-bottom: 12px;
+}
+
+.colophon-desc {
+  font-size: 0.90rem;
+  color: #4a3424;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto 16px;
+}
+
+.colophon-authors-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.colophon-author-pill {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #7a1f29;
+}
+
+.colophon-dept {
+  font-size: 0.82rem;
+  color: #8b5a2b;
+}
+
+/* ==========================================================================
+   MODAL DE EQUIPO MULTIDISCIPLINAR
+   ========================================================================== */
+.team-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.team-modal-backdrop.active {
+  display: flex;
+  animation: fadeInCover 0.25s ease-out;
+}
+
+.team-modal-card {
+  background: rgba(26, 20, 15, 0.95);
+  border: 1px solid rgba(197, 155, 39, 0.5);
+  border-radius: 12px;
+  max-width: 760px;
+  width: 100%;
+  padding: 24px 28px;
+  color: #f7eedf;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.team-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(197, 155, 39, 0.3);
+  margin-bottom: 18px;
+}
+
+.team-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.team-member-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(197, 155, 39, 0.25);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.team-member-role {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #c59b27;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.team-member-name {
+  font-family: var(--font-serif-title, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.team-member-desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #d1c5b4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   SOLVER SIMBÓLICO NERDAMER (SIN FONDOS BLANCOS)
+   ========================================================================== */
+.nerdamer-solver-widget {
+  margin: 26px 0;
+  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(139, 90, 43, 0.4);
+  background: rgba(246, 238, 226, 0.90);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.solver-form {
+  padding: 18px 22px;
+  background: rgba(241, 231, 216, 0.75);
+  border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.form-field input, .form-field select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 90, 43, 0.4);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  background: rgba(254, 250, 243, 0.95);
+  color: #1a120b;
+}
+
+.form-field input:focus, .form-field select:focus {
+  outline: none;
+  border-color: #c59b27;
+  box-shadow: 0 0 6px rgba(197, 155, 39, 0.4);
+}

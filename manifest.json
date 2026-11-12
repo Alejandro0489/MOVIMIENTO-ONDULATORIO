@@ -1,0 +1,17 @@
+{
+  "name": "Cuaderno Interactivo Virtual - Física 3: Movimiento Ondulatorio",
+  "short_name": "Física 3 Cuaderno",
+  "description": "Cuaderno digital interactivo de física clásica, oscilaciones, M.A.S. y ondas con rigor didáctico, simulaciones y cálculo simbólico.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#181410",
+  "theme_color": "#8b5a2b",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "Imagenes/Portada.webp",
+      "sizes": "1103x1426",
+      "type": "image/webp"
+    }
+  ]
+}

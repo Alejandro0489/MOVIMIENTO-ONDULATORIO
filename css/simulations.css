@@ -1,0 +1,318 @@
+/* ==========================================================================
+   CSS SIMULACIONES FÍSICAS - MAS-RESORTE, PÉNDULO, FASORES Y THREE.JS
+   Cuaderno Digital Interactivo: Física 3 - Movimiento Ondulatorio
+   ========================================================================== */
+
+.simulation-card {
+  width: 100%;
+  margin: 22px 0;
+  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  background: rgba(254, 251, 245, 0.95);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-header {
+  padding: 12px 18px;
+  background: rgba(235, 224, 207, 0.9);
+  border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sim-title {
+  font-family: var(--font-serif-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-badge-mode {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--accent-bronze);
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+/* Área interactiva dual: Lienzo físico + gráfica sincronizada */
+.sim-stage-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 14px;
+  background: #fbf7ef;
+}
+
+@media (max-width: 768px) {
+  .sim-stage-dual {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sim-canvas-panel {
+  position: relative;
+  height: 290px;
+  background: #f6efe1;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid rgba(139, 90, 43, 0.2);
+  overflow: hidden;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.05);
+}
+
+.sim-canvas-panel canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Three.js 3D viewport */
+.threejs-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: radial-gradient(circle at center, #232b35 0%, #11151a 100%);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.threejs-overlay-controls {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+}
+
+.three-btn {
+  background: rgba(0, 0, 0, 0.55);
+  color: #f7eedf;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.three-btn:hover {
+  background: var(--accent-bronze);
+}
+
+/* Panel de telemetría física en tiempo real */
+.sim-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(240, 230, 215, 0.6);
+  border-top: 1px solid rgba(139, 90, 43, 0.15);
+  border-bottom: 1px solid rgba(139, 90, 43, 0.15);
+}
+
+.telemetry-item {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.telemetry-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.telemetry-value {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-top: 2px;
+}
+
+.telemetry-value .unit {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  font-weight: 500;
+  margin-left: 2px;
+}
+
+/* Panel de controles y sliders en vivo */
+.sim-controls-panel {
+  padding: 14px 18px;
+  background: rgba(250, 245, 237, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim-button-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(139, 90, 43, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.btn-control.btn-play {
+  background: linear-gradient(135deg, #15803d, #166534);
+  color: #fff;
+  border-color: #14532d;
+}
+
+.btn-control.btn-play.playing {
+  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  border-color: #7f1d1d;
+}
+
+.btn-control.btn-step {
+  background: #fdfaf4;
+  color: var(--ink-primary);
+}
+
+.btn-control.btn-reset {
+  background: #fdfaf4;
+  color: var(--ink-secondary);
+}
+
+.btn-control:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* Sliders de parámetros físicos */
+.sim-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.sim-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.slider-val-readout {
+  font-family: var(--font-mono);
+  color: var(--accent-bronze);
+  font-weight: 700;
+}
+
+.sim-slider-group input[type="range"] {
+  accent-color: var(--accent-bronze);
+  cursor: pointer;
+  height: 6px;
+}
+
+/* ==========================================================================
+   SIMULADOR DE ONDA ARMÓNICA VIAJERA (CUERDA CONTINUA)
+   ========================================================================== */
+.sim-canvas-panel-full {
+  width: 100%;
+  height: 270px;
+  background: radial-gradient(circle at 50% 50%, #1e242d 0%, #0f1318 100%);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid rgba(197, 155, 39, 0.3);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.sim-canvas-panel-full canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sim-options-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 14px;
+  background: rgba(235, 224, 207, 0.7);
+  border-bottom: 1px solid rgba(139, 90, 43, 0.18);
+  font-size: 0.82rem;
+}
+
+.sim-direction-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-dir-toggle {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.35);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-dir-toggle.active {
+  background: var(--accent-bronze);
+  color: #fff;
+  border-color: var(--accent-gold);
+}
+
+.sim-checkboxes-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sim-check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+
+.sim-check-label input {
+  accent-color: var(--accent-bronze);
+  cursor: pointer;
+}

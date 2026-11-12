@@ -1,0 +1,287 @@
+/* ==========================================================================
+   CSS PRINCIPAL - SISTEMA DE DISEÑO Y VARIABLES GLOBALES
+   Cuaderno Digital Interactivo: Física 3 - Movimiento Ondulatorio
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Paleta cromática reglamentaria del protocolo didáctico */
+  --color-step-datos: #1d4ed8;       /* Azul reglamentario para datos conocidos */
+  --color-step-datos-bg: rgba(29, 78, 216, 0.08);
+  --color-step-incognitas: #dc2626;   /* Rojo reglamentario para incógnitas */
+  --color-step-incognitas-bg: rgba(220, 38, 38, 0.08);
+  --color-step-resuelta: #ea580c;     /* Naranja reglamentario para incógnitas resueltas */
+  --color-step-resuelta-bg: rgba(234, 88, 12, 0.1);
+
+  /* Paleta de la atmósfera de manuscrito y cuaderno científico */
+  --paper-parchment: #f4ecdf;
+  --paper-parchment-light: #fbf7f0;
+  --paper-parchment-dark: #e8dcc8;
+  --paper-line: rgba(120, 85, 55, 0.22);
+  --ink-primary: #211915;
+  --ink-secondary: #4a3c31;
+  --ink-muted: #736152;
+  --accent-gold: #c59b27;
+  --accent-bronze: #8b5a2b;
+  --accent-burgundy: #7a1f29;
+  --accent-teal: #0d6966;
+
+  /* Entorno de laboratorio y escritorio */
+  --desk-bg: #111419;
+  --desk-pattern: radial-gradient(circle at 50% 50%, #1f2733 0%, #0d1015 100%);
+  --dock-bg: rgba(25, 29, 38, 0.88);
+  --dock-border: rgba(197, 155, 39, 0.35);
+  --dock-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+
+  /* Curvas físicas (Geogebra / Cinemática) */
+  --curve-pos: #2563eb;      /* Posición x(t): Azul */
+  --curve-vel: #16a34a;      /* Velocidad v(t): Verde Esmeralda */
+  --curve-acc: #dc2626;      /* Aceleración a(t): Rojo Carmesí */
+  --curve-ep: #d97706;       /* Energía Potencial: Ámbar */
+  --curve-ec: #0284c7;       /* Energía Cinética: Celeste */
+  --curve-et: #7c3aed;       /* Energía Mecánica Total: Púrpura */
+
+  /* Tipografías */
+  --font-serif-title: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-serif-body: 'Playfair Display', 'Crimson Pro', Georgia, serif;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+  /* Dimensiones y espaciados */
+  --book-aspect-ratio: 1103 / 1426;
+  --book-max-w: 960px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 16px;
+  --transition-smooth: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modo Tema Oscuro (opcional para descanso visual manteniendo la estética) */
+[data-theme="dark-academic"] {
+  --desk-bg: #090b0e;
+  --paper-parchment: #221e1a;
+  --paper-parchment-light: #2c2722;
+  --paper-parchment-dark: #191613;
+  --paper-line: rgba(197, 155, 39, 0.18);
+  --ink-primary: #ede3d3;
+  --ink-secondary: #d0c2ae;
+  --ink-muted: #9c8e7b;
+  --dock-bg: rgba(15, 18, 24, 0.92);
+}
+
+/* Reset y base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--desk-bg);
+  background-image: var(--desk-pattern);
+  color: var(--ink-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c59b27 rgba(14, 18, 25, 0.95);
+}
+
+/* Barra de desplazamiento premium en el costado derecho */
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(14, 18, 25, 0.95);
+  border-left: 1px solid rgba(197, 155, 39, 0.25);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d8ac32 0%, #c59b27 50%, #8b5a2b 100%);
+  border-radius: 7px;
+  border: 2px solid rgba(14, 18, 25, 0.95);
+  box-shadow: 0 0 8px rgba(197, 155, 39, 0.45);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fbbf24 0%, #ea580c 100%);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.75);
+}
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #f59e0b 0%, #c2410c 100%);
+}
+
+/* Contenedor principal de la aplicación */
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+  position: relative;
+  padding-bottom: 20px !important;
+}
+
+/* Barra superior minimalista de estado y utilidades */
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px;
+  background: rgba(14, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 155, 39, 0.2);
+  color: #e5ded2;
+  font-size: 0.9rem;
+}
+
+.topbar-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-serif-title);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.topbar-branding .badge-subject {
+  background: linear-gradient(135deg, var(--accent-bronze), var(--accent-gold));
+  color: #120e06;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #dfd7cc;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.topbar-btn:hover {
+  background: rgba(197, 155, 39, 0.2);
+  border-color: var(--accent-gold);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.topbar-btn.active {
+  background: var(--accent-bronze);
+  color: #fff;
+  border-color: var(--accent-gold);
+}
+
+/* Utilidades generales */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-blue {
+  background: var(--color-step-datos-bg);
+  color: var(--color-step-datos);
+  border: 1px solid rgba(29, 78, 216, 0.3);
+}
+
+.badge-red {
+  background: var(--color-step-incognitas-bg);
+  color: var(--color-step-incognitas);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.badge-orange {
+  background: var(--color-step-resuelta-bg);
+  color: var(--color-step-resuelta);
+  border: 1px solid rgba(234, 88, 12, 0.3);
+}
+
+.text-datos {
+  color: var(--color-step-datos) !important;
+  font-weight: 600;
+}
+
+.text-incognitas {
+  color: var(--color-step-incognitas) !important;
+  font-weight: 600;
+}
+
+.text-resuelta {
+  color: var(--color-step-resuelta) !important;
+  font-weight: 700;
+}
+
+/* Numeración formal correlativa */
+.entity-number {
+  font-family: var(--font-serif-title);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent-bronze);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.equation-block {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0 6px 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+}
+
+.equation-content {
+  flex: 1;
+  text-align: center;
+  font-size: 1.12rem;
+}
+
+.equation-tag {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-bronze);
+  margin-left: 16px;
+  white-space: nowrap;
+}

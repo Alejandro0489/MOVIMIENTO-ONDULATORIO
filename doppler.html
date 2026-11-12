@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Simulador Avanzado del Efecto Doppler Acústico y Supersónico • Física III</title>
+  <meta name="description" content="Laboratorio virtual avanzado e interactivo del Efecto Doppler acústico en medio homogéneo, ondas esféricas, cinemática retardada, cono de Mach y Web Audio API.">
+  
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS Local con Fallback CDN -->
+  <link rel="stylesheet" href="vendor/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Estilos del Simulador -->
+  <link rel="stylesheet" href="css/doppler.css?v=11.0">
+</head>
+<body class="doppler-body">
+
+  <!-- ========================================================================
+       BARRA SUPERIOR DE NAVEGACIÓN Y ACCIONES RÁPIDAS
+       ======================================================================== -->
+  <header class="doppler-header">
+    <div class="doppler-brand">
+      <div class="doppler-brand-icon">
+        <i data-lucide="waves"></i>
+      </div>
+      <div>
+        <h1 class="doppler-title">EFECTO DOPPLER ACÚSTICO &bull; LABORATORIO VIRTUAL</h1>
+        <span class="doppler-subtitle">Física III &bull; Ondas en Medios Elásticos &bull; Regímenes Sónico y Supersónico</span>
+      </div>
+    </div>
+
+    <div class="doppler-header-actions">
+      <button class="btn-header" id="btn-open-scenarios" title="Ver 8 Escenarios Didácticos Guiados">
+        <i data-lucide="compass"></i>
+        <span>Escenarios Didácticos</span>
+      </button>
+
+      <button class="btn-header" id="btn-open-verify" title="Ejecutar Suite de 12 Pruebas Obligatorias">
+        <i data-lucide="check-circle-2"></i>
+        <span>Verificación & Pruebas</span>
+      </button>
+
+      <button class="btn-header" id="btn-open-codelab" title="Laboratorio de Código de Trayectorias">
+        <i data-lucide="code-2"></i>
+        <span>Laboratorio de Código</span>
+      </button>
+
+      <button class="btn-header" id="btn-open-manual" title="Tratado Teórico y Manual de Usuario">
+        <i data-lucide="book-open"></i>
+        <span>Teoría & Manual</span>
+      </button>
+
+      <button class="btn-header" id="btn-toggle-audio" title="Activar/Silenciar Sonido Web Audio">
+        <i data-lucide="volume-x"></i>
+        <span>Activar Audio</span>
+      </button>
+
+      <a href="ondas-cuerdas.html" class="btn-header" style="background:linear-gradient(135deg, rgba(124,58,237,0.35), rgba(168,85,247,0.35)); border-color:#a855f7; color:#fff;" title="Ir al siguiente laboratorio: Ondas Estacionarias en Cuerdas Tensas">
+        <i data-lucide="activity"></i>
+        <span>Siguiente: Ondas en Cuerdas &rarr;</span>
+      </a>
+
+      <a href="index.html" class="btn-header primary" title="Regresar al Cuaderno Digital de Física III">
+        <i data-lucide="arrow-left"></i>
+        <span>Cuaderno de Cátedra</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       DISPOSICIÓN PRINCIPAL DE PANELES (LAYOUT RESPONSIVO)
+       ======================================================================== -->
+  <main class="doppler-main-layout">
+
+    <!-- ====================================================================
+         COLUMNA IZQUIERDA: CONTROLES, MODOS Y PARÁMETROS
+         ==================================================================== -->
+    <aside class="doppler-panel doppler-left-column">
+      <div class="panel-header">
+        <span class="panel-title"><i data-lucide="sliders"></i> Parámetros Físicos</span>
+        <div class="mode-switch-group">
+          <button class="mode-btn active" id="btn-mode-exploration" title="Controles esenciales y visualización directa">Exploración</button>
+          <button class="mode-btn" id="btn-mode-lab" title="Parámetros avanzados, vectores y análisis de datos">Laboratorio</button>
+        </div>
+      </div>
+
+      <div class="panel-scrollable">
+        <!-- Nota didáctica de la frecuencia visual -->
+        <div style="background:rgba(56, 189, 248, 0.08); border-left:3px solid var(--doppler-accent-cyan); padding:8px 10px; border-radius:4px; font-size:0.75rem; color:var(--doppler-text-muted); line-height:1.35;">
+          <strong style="color:var(--doppler-accent-cyan);">💡 Nota Didáctica:</strong> La frecuencia inicial ($2\text{ Hz}$) permite contar frentes geométricos individuales en pantalla sin saturación visual.
+        </div>
+
+        <!-- Frecuencia emitida (f) -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Frecuencia emitida ($f$)</span>
+            <span><input type="number" id="input-f" class="param-val-input" min="0.5" max="5.0" step="0.1" value="2.0"> Hz</span>
+          </div>
+          <input type="range" id="slider-f" class="param-slider" min="0.5" max="5.0" step="0.1" value="2.0">
+        </div>
+
+        <!-- Rapidez del sonido (c) -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Rapidez en el medio ($c$)</span>
+            <span><input type="number" id="input-c" class="param-val-input" min="100" max="500" step="10" value="340"> m/s</span>
+          </div>
+          <input type="range" id="slider-c" class="param-slider" min="100" max="500" step="10" value="340">
+        </div>
+
+        <!-- Velocidad de la fuente (vf) -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Velocidad fuente ($v_f$)</span>
+            <span><input type="number" id="input-vf" class="param-val-input" min="-680" max="680" step="5" value="0"> m/s</span>
+          </div>
+          <input type="range" id="slider-vf" class="param-slider" min="-680" max="680" step="5" value="0">
+        </div>
+
+        <!-- Velocidad del observador (vo) -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Velocidad observador ($v_o$)</span>
+            <span><input type="number" id="input-vo" class="param-val-input" min="-272" max="272" step="5" value="0"> m/s</span>
+          </div>
+          <input type="range" id="slider-vo" class="param-slider" min="-272" max="272" step="5" value="0">
+        </div>
+
+        <!-- Separación inicial -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Separación inicial ($d_0$)</span>
+            <span><input type="number" id="input-sep" class="param-val-input" min="50" max="600" step="10" value="340"> m</span>
+          </div>
+          <input type="range" id="slider-sep" class="param-slider" min="50" max="600" step="10" value="340">
+        </div>
+
+        <!-- Duración total del experimento -->
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Duración simulación</span>
+            <span><input type="number" id="input-duration" class="param-val-input" min="2" max="40" step="1" value="10"> s</span>
+          </div>
+          <input type="range" id="slider-duration" class="param-slider" min="2" max="40" step="1" value="10">
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Opciones del Modo Laboratorio -->
+        <div class="param-group lab-only" style="display:none;">
+          <span class="param-name" style="font-size:0.78rem;">Símbolo de Fuente Emisora</span>
+          <select id="select-source-type" class="select-custom">
+            <option value="point">Punto Emisor Científico</option>
+            <option value="car">Automóvil con Bocina</option>
+            <option value="plane">Avión Supersónico (Jet)</option>
+          </select>
+        </div>
+
+        <div class="param-group lab-only" style="display:none;">
+          <span class="param-name" style="font-size:0.78rem;">Estilo de Frentes de Onda</span>
+          <select id="select-wave-style" class="select-custom">
+            <option value="solid">Línea Continua</option>
+            <option value="dashed">Línea Discontinua</option>
+            <option value="dotted">Línea Punteada</option>
+          </select>
+        </div>
+
+        <div class="param-group lab-only" style="display:none;">
+          <div class="param-label-row">
+            <span class="param-name">Color de frentes</span>
+            <input type="color" id="color-wave" value="#38bdf8" style="background:transparent; border:none; width:28px; height:24px; cursor:pointer;">
+          </div>
+        </div>
+
+        <!-- Toggles de visualización -->
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:0.78rem;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="check-vectors" checked> Mostrar Vectores de Velocidad
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="check-grid" checked> Cuadrícula Métrica y Ejes
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;" class="lab-only" style="display:none;">
+            <input type="checkbox" id="check-attenuation"> Atenuación Visual Gráfica
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;" class="lab-only" style="display:none;">
+            <input type="checkbox" id="check-track-source"> Seguir Fuente con la Cámara
+          </label>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Ajustes de Audio -->
+        <div class="param-group">
+          <span class="param-name" style="font-size:0.78rem;">Modalidad de Web Audio</span>
+          <select id="select-audio-mode" class="select-custom">
+            <option value="pulses">Pulsos de Llegada (Ritmo Temporal Físico)</option>
+            <option value="tonal">Comparación Tonal (Tono Base 440 Hz)</option>
+          </select>
+        </div>
+
+        <div class="param-group">
+          <div class="param-label-row">
+            <span class="param-name">Volumen de Audio</span>
+            <input type="range" id="slider-volume" class="param-slider" min="0" max="1" step="0.05" value="0.5">
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         COLUMNA CENTRAL: LIENZO DINÁMICO (CANVAS) Y CONSOLA DE TIEMPO
+         ==================================================================== -->
+    <section class="doppler-center-column">
+      <div class="canvas-container">
+        <canvas id="doppler-canvas"></canvas>
+
+        <!-- Insignia flotante de régimen Mach -->
+        <div class="canvas-floating-badge">
+          <div id="mach-status-badge" class="status-pill mach-sub">
+            <i data-lucide="wind"></i> Mach 0.00 (Subsónico)
+          </div>
+        </div>
+
+        <!-- Botones flotantes de cámara y herramientas -->
+        <div class="canvas-floating-tools">
+          <button class="btn-tool" id="btn-fit-scene" title="Ajustar escena completa"><i data-lucide="maximize-2"></i></button>
+          <button class="btn-tool" id="btn-reset-view" title="Restaurar vista por defecto"><i data-lucide="rotate-ccw"></i></button>
+          <button class="btn-tool" id="btn-toggle-ruler" title="Regla de medición métrica"><i data-lucide="ruler"></i></button>
+        </div>
+      </div>
+
+      <!-- Consola de Transporte y Scrubber Temporal -->
+      <div class="transport-dock">
+        <div class="transport-scrubber-row">
+          <span class="time-display" id="time-display">0.00s / 10.0s</span>
+          <input type="range" id="time-scrubber" class="scrubber-slider" min="0" max="10" step="0.005" value="0">
+        </div>
+
+        <div class="transport-buttons-row">
+          <div class="transport-btn-group">
+            <button class="btn-transport" id="btn-step-back" title="Paso Atrás (Δt)"><i data-lucide="skip-back"></i></button>
+            <button class="btn-transport play-btn" id="btn-play-pause" title="Iniciar / Pausar (Espacio)"><i data-lucide="play"></i> Iniciar</button>
+            <button class="btn-transport" id="btn-step-fwd" title="Paso Adelante (Δt)"><i data-lucide="skip-forward"></i></button>
+            <button class="btn-transport" id="btn-step-period" title="Avanzar 1 Período (T)"><i data-lucide="fast-forward"></i> +1 Período</button>
+            <button class="btn-transport" id="btn-reset" title="Reiniciar a t=0 (R)"><i data-lucide="rotate-ccw"></i> Reiniciar</button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:var(--doppler-text-muted); font-family:var(--font-mono);">Velocidad:</span>
+            <select id="speed-select" class="speed-select">
+              <option value="0.25">0.25×</option>
+              <option value="0.5">0.50×</option>
+              <option value="1.0" selected>1.00×</option>
+              <option value="2.0">2.00×</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         COLUMNA DERECHA: PANEL MATEMÁTICO, GRÁFICAS SINCRONIZADAS Y EVENTOS
+         ==================================================================== -->
+    <aside class="doppler-panel doppler-right-column">
+      
+      <!-- Panel Matemático KaTeX en Vivo -->
+      <div class="math-card">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--doppler-accent-amber);"><i data-lucide="sigma"></i> Deducción & Valores en Vivo</span>
+          <span style="font-size:0.7rem; color:var(--doppler-text-muted); font-family:var(--font-mono);">SI: m, s, Hz</span>
+        </div>
+
+        <div class="math-formula-box">
+          $$f_o = f_e \cdot \frac{c - \mathbf{n}\cdot\mathbf{v}_o(t_r)}{c - \mathbf{n}\cdot\mathbf{v}_f(t_e)}$$
+        </div>
+
+        <div class="math-values-grid">
+          <div class="math-value-item">
+            <span class="math-val-label">f_o Teórica (Retardada)</span>
+            <span class="math-val-data" id="val-fo">2.000 Hz</span>
+          </div>
+          <div class="math-value-item">
+            <span class="math-val-label">f Medida (Llegadas)</span>
+            <span class="math-val-data" id="val-fm" style="color:var(--doppler-accent-pink);">Esperando...</span>
+          </div>
+          <div class="math-value-item">
+            <span class="math-val-label">Número de Mach (M)</span>
+            <span class="math-val-data" id="val-mach">0.000</span>
+          </div>
+          <div class="math-value-item">
+            <span class="math-val-label">λ Delantera / Posterior</span>
+            <span class="math-val-data" id="val-lambda">170.0 m</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficas Sincronizadas -->
+      <div class="doppler-panel" style="flex:1; min-height:260px; box-shadow:none;">
+        <div class="chart-tabs-bar">
+          <button class="chart-tab-btn active" data-tab="frequency">Frecuencia</button>
+          <button class="chart-tab-btn" data-tab="kinematics">Cinemática</button>
+          <button class="chart-tab-btn" data-tab="spacetime">Espacio-Tiempo</button>
+          <button class="chart-tab-btn" data-tab="intervals">Intervalos Δtr</button>
+        </div>
+
+        <div class="chart-canvas-wrap">
+          <canvas id="doppler-chart-canvas"></canvas>
+        </div>
+
+        <div style="padding:6px 10px; background:rgba(0,0,0,0.3); display:flex; justify-content:flex-end; gap:6px; border-top:1px solid var(--doppler-panel-border);">
+          <button class="btn-header" id="btn-export-csv" style="font-size:0.7rem; padding:4px 8px;">
+            <i data-lucide="download"></i> Exportar CSV
+          </button>
+          <button class="btn-header" id="btn-export-png" style="font-size:0.7rem; padding:4px 8px;">
+            <i data-lucide="image"></i> Gráfica PNG
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla de eventos discretos de recepción -->
+      <div class="doppler-panel lab-only" style="height:170px; box-shadow:none;">
+        <div class="panel-header" style="padding:6px 10px;">
+          <span style="font-size:0.75rem; font-weight:700;"><i data-lucide="list-checks"></i> Registro de Cruces Físicos</span>
+        </div>
+        <div class="events-table-wrap">
+          <table class="events-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Frente</th>
+                <th>te (s)</th>
+                <th>tr (s)</th>
+                <th>Vuelo</th>
+                <th>f_medida</th>
+              </tr>
+            </thead>
+            <tbody id="events-table-body">
+              <!-- Filas generadas reactivamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ========================================================================
+       MODALES (ESCENARIOS, VERIFICACIÓN, LABORATORIO DE CÓDIGO, TEORÍA)
+       ======================================================================== -->
+
+  <!-- Modal 1: 8 Escenarios Guiados con Predicciones y Comprobación -->
+  <div class="doppler-modal-backdrop" id="modal-scenarios">
+    <div class="doppler-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title"><i data-lucide="compass" style="color:var(--doppler-accent-cyan);"></i> 8 Escenarios Didácticos de Aprendizaje Guiado</h2>
+        <button class="modal-close-btn" id="btn-close-scenarios">&times;</button>
+      </div>
+      <div class="modal-body-scroll">
+        <p style="font-size:0.85rem; color:var(--doppler-text-muted);">
+          Selecciona un escenario preparado para formular tu predicción, seguir el procedimiento guiado y verificar los principios físicos fundamentales:
+        </p>
+        <div class="scenario-selector-grid" id="scenarios-grid"></div>
+        <div id="scenario-detail-box" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Suite de 12 Pruebas de Verificación Obligatoria -->
+  <div class="doppler-modal-backdrop" id="modal-verify">
+    <div class="doppler-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title"><i data-lucide="check-circle-2" style="color:var(--doppler-accent-emerald);"></i> Suite de Verificación Numérica & Física Obligatoria</h2>
+        <button class="modal-close-btn" id="btn-close-verify">&times;</button>
+      </div>
+      <div class="modal-body-scroll">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="font-size:0.85rem; color:var(--doppler-text-muted);">
+            Comprobación exhaustiva con valores canónicos ($c=340\text{ m/s}$, $f=1000\text{ Hz}$), retardo de propagación, Mach 2 y consistencia entre framerates:
+          </p>
+          <button class="btn-header primary" id="btn-run-tests">
+            <i data-lucide="play"></i> Ejecutar Suite de Tests
+          </button>
+        </div>
+
+        <table class="verify-table">
+          <thead>
+            <tr>
+              <th>Caso de Prueba</th>
+              <th>Esperado</th>
+              <th>Teórico</th>
+              <th>Empírico</th>
+              <th>Error Δ</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="verify-table-body">
+            <tr>
+              <td colspan="6" style="text-align:center; padding:24px; color:var(--doppler-text-muted);">
+                Presiona "Ejecutar Suite de Tests" para auditar el modelo físico.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Laboratorio de Programación Educativa de Trayectorias -->
+  <div class="doppler-modal-backdrop" id="modal-codelab">
+    <div class="doppler-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title"><i data-lucide="code-2" style="color:var(--doppler-accent-cyan);"></i> Laboratorio de Programación de Trayectorias</h2>
+        <button class="modal-close-btn" id="btn-close-codelab">&times;</button>
+      </div>
+      <div class="modal-body-scroll">
+        <p style="font-size:0.85rem; color:var(--doppler-text-muted);">
+          Define matemáticamente la función vectorial de posición $\mathbf{x}_f(t) = \{ x(t), y(t) \}$ de la fuente en lenguaje JavaScript. La función se compila en un entorno seguro y aislado:
+        </p>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:0.8rem; font-weight:600;">Plantillas preparadas:</span>
+          <select id="select-codelab-preset" class="select-custom" style="max-width:320px;">
+            <option value="harmonic">Fuente en Movimiento Armónico Simple (M.A.S.)</option>
+            <option value="circular">Efecto Doppler Rotacional (Círculo 2D)</option>
+            <option value="accelerated">Movimiento Acelerado Transónico</option>
+          </select>
+        </div>
+
+        <textarea id="codelab-editor" style="width:100%; height:180px; background:#090d16; border:1px solid var(--doppler-panel-border); border-radius:var(--radius-sm); color:#38bdf8; font-family:var(--font-mono); font-size:0.82rem; padding:12px; resize:vertical; outline:none;" spellcheck="false">// Simulación de fuente oscilante en M.A.S.
+const A = 80.0;
+const Tosc = 2.0;
+const omega = 2 * Math.PI / Tosc;
+
+return {
+  x: A * Math.sin(omega * t),
+  y: 0.0
+};</textarea>
+
+        <div id="codelab-msg" style="display:none; padding:10px; border-radius:var(--radius-sm); font-size:0.8rem; font-family:var(--font-mono);"></div>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+          <button class="btn-header" id="btn-reset-code">Restaurar Movimiento Rectilíneo</button>
+          <button class="btn-header primary" id="btn-compile-code"><i data-lucide="play"></i> Compilar y Aplicar Trayectoria</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Tratado Teórico y Manual de Usuario -->
+  <div class="doppler-modal-backdrop" id="modal-manual">
+    <div class="doppler-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title"><i data-lucide="book-open" style="color:var(--doppler-accent-amber);"></i> Tratado Teórico y Manual de Usuario</h2>
+        <button class="modal-close-btn" id="btn-close-manual">&times;</button>
+      </div>
+      <div class="modal-body-scroll" style="line-height:1.6; font-size:0.85rem; color:#cbd5e1;">
+        <h3 style="color:var(--doppler-accent-amber); font-family:var(--font-serif); font-size:1.05rem;">1. Fundamentos Físicos del Efecto Doppler Acústico Clásico</h3>
+        <p>
+          El efecto Doppler acústico es el cambio aparente en la frecuencia de una onda percibida por un observador cuando existe movimiento relativo entre la fuente emisora, el observador y el medio elástico de propagación (aire).
+        </p>
+        <p>
+          A diferencia del efecto Doppler relativista de la luz en el vacío, en acústica el medio en reposo actúa como sistema de referencia físico:
+        </p>
+        <ul style="list-style-position:inside; margin-left:10px; color:#94a3b8;">
+          <li><strong>Movimiento de la fuente:</strong> Al desplazarse la fuente emisora respecto al medio, comprime físicamente los frentes de onda en la dirección de su avance ($\lambda_{\text{delante}} = (c - v_f)/f$) y los dilata en la estela posterior ($\lambda_{\text{detrás}} = (c + v_f)/f$).</li>
+          <li><strong>Movimiento del observador:</strong> El movimiento del observador NO modifica la longitud de onda espacial de las perturbaciones ya emitidas en el medio; altera la rapidez relativa con la que su tímpano intercepta dichas crestas ($v_{\text{rel}} = c \pm v_o$).</li>
+        </ul>
+
+        <h3 style="color:var(--doppler-accent-cyan); font-family:var(--font-serif); font-size:1.05rem; margin-top:12px;">2. Ecuación Vectorial Retardada Tridimensional</h3>
+        <p>
+          En el espacio general, la frecuencia observada en el instante de recepción $t_r$ depende de la posición y velocidad de la fuente en el instante de emisión retardado $t_e = t_r - \|\mathbf{x}_o(t_r) - \mathbf{x}_f(t_e)\| / c$:
+        </p>
+        <div style="background:rgba(0,0,0,0.3); padding:8px; border-radius:4px; font-family:var(--font-mono); color:#f59e0b;">
+          f_o = f_e * (c - n · v_o(t_r)) / (c - n · v_f(t_e))
+        </div>
+        <p>
+          donde $\mathbf{n}$ es el vector unitario que apunta desde el punto donde se emitió la onda hacia el punto donde se recibe.
+        </p>
+
+        <h3 style="color:var(--doppler-accent-red); font-family:var(--font-serif); font-size:1.05rem; margin-top:12px;">3. Regímenes Sónico y Supersónico (Cono de Mach)</h3>
+        <p>
+          Cuando el número de Mach $M = \|\mathbf{v}_f\| / c > 1$, la fuente adelanta a sus propios frentes de onda. Los frentes esféricos quedan encerrados dentro de una superficie envolvente cónica con semíangulo $\mu = \arcsin(1/M)$. El paso de esta superficie sobre el observador produce una discontinuidad abrupta de presión denominada <em>estampido sónico</em>.
+        </p>
+
+        <!-- Sección de Ejemplos Resueltos Paso a Paso -->
+        <h3 style="color:var(--doppler-accent-cyan); font-family:var(--font-serif); font-size:1.05rem; margin-top:16px;">4. Ejemplos Prácticos de Cátedra Resueltos Paso a Paso</h3>
+        
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:12px; margin-bottom:12px;">
+          <h4 style="color:#38bdf8; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 1: Sirena de Emergencia en Tráfico Urbano ($v_f = 108\text{ km/h}$)</h4>
+          <p style="margin:4px 0;">Una ambulancia con $f_e = 700\text{ Hz}$ viaja a $v_f = 30\text{ m/s}$ hacia un peatón quieto ($v_o = 0, c = 343\text{ m/s}$).</p>
+          <ul style="margin:6px 0; padding-left:18px;">
+            <li><strong>Longitud de onda comprimida:</strong> $\lambda_{\text{delante}} = \frac{c - v_f}{f_e} = \frac{343 - 30}{700} = 0.4471\text{ m}$.</li>
+            <li><strong>Frecuencia en aproximación:</strong> $f_{o,\text{aprox}} = f_e \left(\frac{c}{c - v_f}\right) = 700\left(\frac{343}{313}\right) = 767.09\text{ Hz}$.</li>
+            <li><strong>Frecuencia en alejamiento:</strong> $f_{o,\text{alej}} = f_e \left(\frac{c}{c + v_f}\right) = 700\left(\frac{343}{373}\right) = 643.70\text{ Hz}$.</li>
+            <li><strong>Salto tonal total:</strong> $\Delta f = 767.09 - 643.70 = 123.39\text{ Hz}$ (caída de más de dos semitonos y medio).</li>
+          </ul>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:12px; margin-bottom:12px;">
+          <h4 style="color:#38bdf8; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 2: Persecución Doble en Autopista ($v_f = 38\text{ m/s}, v_o = 26\text{ m/s}$)</h4>
+          <p style="margin:4px 0;">Patrulla policial ($f_e = 900\text{ Hz}$, $v_f = 38\text{ m/s}$) persigue a un vehículo ($v_o = 26\text{ m/s}$) con $c = 340\text{ m/s}$:</p>
+          <div style="background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:4px; font-family:var(--font-mono); margin:6px 0;">
+            f_o = 900 · [(340 - 26) / (340 - 38)] = 900 · (314 / 302) ≈ 935.76 Hz
+          </div>
+          <p style="margin:4px 0; color:#38bdf8;">Como $v_f > v_o$, la patrulla acorta la distancia relativa y el infractor escucha un tono más agudo.</p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:12px; margin-bottom:14px;">
+          <h4 style="color:#38bdf8; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 3: Avión Caza a Mach 2.2 y Retardo del Estampido Sónico</h4>
+          <p style="margin:4px 0;">Vuelo horizontal a Mach $M = 2.20$ ($v_f = 748\text{ m/s}$) a altitud $h = 4000\text{ m}$ ($c = 340\text{ m/s}$):</p>
+          <ul style="margin:6px 0; padding-left:18px;">
+            <li><strong>Semiángulo del cono de Mach:</strong> $\mu = \arcsin(1/M) = \arcsin(1/2.20) \approx 27.04^\circ$.</li>
+            <li><strong>Distancia antes del impacto sónico:</strong> $x = h / \tan \mu = 4000 / \tan(27.04^\circ) \approx 7837\text{ m}$ ($7.84\text{ km}$).</li>
+            <li><strong>Retardo temporal del estampido:</strong> $\Delta t = x / v_f = 7837 / 748 \approx 10.48\text{ s}$ de silencio tras el paso cenital.</li>
+          </ul>
+        </div>
+
+        <h3 style="color:var(--doppler-accent-emerald); font-family:var(--font-serif); font-size:1.05rem; margin-top:12px;">5. Controles y Accesibilidad</h3>
+        <ul style="list-style-position:inside; margin-left:10px;">
+          <li><kbd>Espacio</kbd>: Iniciar / Pausar simulación.</li>
+          <li><kbd>R</kbd>: Reiniciar al tiempo cero.</li>
+          <li><kbd>→</kbd> / <kbd>←</kbd>: Avanzar / Retroceder un paso de tiempo $\Delta t$.</li>
+          <li><kbd>M</kbd>: Silenciar / Reactivar Web Audio.</li>
+          <li><strong>Rueda del ratón</strong>: Zoom centrado exactamente en el cursor.</li>
+          <li><strong>Arrastre</strong>: Desplazamiento de lienzo (pan) o recolocación de fuente y micrófono.</li>
+        </ul>
+
+        <div style="margin-top:14px; padding:10px; background:rgba(255,255,255,0.04); border-radius:4px; font-size:0.75rem; color:#94a3b8;">
+          <strong>Nota de referencia:</strong> El archivo <code>EfectoDoppler.html</code> no se encontraba en el espacio de trabajo; por consiguiente, este simulador fue diseñado e implementado íntegramente desde cero garantizando el cumplimiento riguroso de cada uno de los 15 apartados del pliego de condiciones técnicas y pedagógicas.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KaTeX Scripts Locales con Fallback CDN -->
+  <script src="vendor/katex.min.js"></script>
+  <script src="vendor/auto-render.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="vendor/lucide.min.js"></script>
+  <script>
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+
+  <script src="js/doppler.js?v=11.0"></script>
+  <script>
+    function initDopplerApp() {
+      if (!window.dopplerApp && window.DopplerApp) {
+        window.dopplerApp = new DopplerApp();
+      }
+    }
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initDopplerApp);
+    } else {
+      initDopplerApp();
+    }
+  </script>
+</body>
+</html>

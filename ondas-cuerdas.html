@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Simulador de Ondas Estacionarias en Cuerdas Tensas • Física III</title>
+  <meta name="description" content="Laboratorio virtual avanzado e interactivo de ondas estacionarias en cuerdas con dos extremos fijos, armónicos, nodos, antinodos, superposición de ondas viajeras y síntesis Web Audio.">
+  
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS Local con Fallback CDN -->
+  <link rel="stylesheet" href="vendor/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- Estilos del Simulador -->
+  <link rel="stylesheet" href="css/standing-waves.css?v=11.0">
+</head>
+<body class="sw-body">
+
+  <!-- ========================================================================
+       BARRA SUPERIOR DE NAVEGACIÓN Y ACCIONES RÁPIDAS
+       ======================================================================== -->
+  <header class="sw-header">
+    <div class="sw-brand">
+      <div class="sw-brand-icon">
+        <i data-lucide="activity"></i>
+      </div>
+      <div>
+        <h1 class="sw-title">ONDAS ESTACIONARIAS EN CUERDAS TENSAS &bull; LABORATORIO VIRTUAL</h1>
+        <span class="sw-subtitle">Física III &bull; Ondas en Medios Elásticos &bull; Dos Extremos Fijos (Dirichlet)</span>
+      </div>
+    </div>
+
+    <div class="sw-header-actions">
+      <button class="btn-sw-header" id="btn-open-theory" title="Ver Deducción Matemática y Tratado Teórico">
+        <i data-lucide="book-open"></i>
+        <span>Tratado Teórico</span>
+      </button>
+
+      <button class="btn-sw-header" id="btn-open-guide" title="Guía Didáctica y 6 Retos Experimentales">
+        <i data-lucide="compass"></i>
+        <span>Retos Didácticos</span>
+      </button>
+
+      <button class="btn-sw-header" id="btn-open-solver" title="Calculadora y Despeje de Variables">
+        <i data-lucide="calculator"></i>
+        <span>Solver de Cuerda</span>
+      </button>
+
+      <button class="btn-sw-header" id="btn-sw-audio" title="Activar/Silenciar Tono Acústico Web Audio">
+        <i data-lucide="volume-x"></i>
+        <span>Activar Audio</span>
+      </button>
+
+      <button class="btn-sw-header" id="btn-sw-header-snapshot" title="Capturar Imagen PNG en Alta Resolución">
+        <i data-lucide="camera"></i>
+        <span>Captura PNG</span>
+      </button>
+
+      <a href="doppler.html" class="btn-sw-header" title="Abrir Laboratorio Virtual Doppler (Módulo Previo)">
+        <i data-lucide="waves"></i>
+        <span>&larr; Simulador Doppler</span>
+      </a>
+
+      <a href="index.html" class="btn-sw-header primary" title="Regresar al Cuaderno Digital de Física III">
+        <i data-lucide="arrow-left"></i>
+        <span>Cuaderno de Cátedra</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       DISPOSICIÓN PRINCIPAL DE PANELES (LAYOUT RESPONSIVO DE 3 COLUMNAS)
+       ======================================================================== -->
+  <main class="sw-main-layout">
+
+    <!-- ====================================================================
+         COLUMNA IZQUIERDA: CONTROLES, MODOS, PARÁMETROS Y PRESETS
+         ==================================================================== -->
+    <aside class="sw-panel sw-left-column">
+      <div class="sw-panel-header">
+        <span class="sw-panel-title"><i data-lucide="sliders"></i> Parámetros Físicos</span>
+        <span style="font-size:0.75rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">SI: N, m, kg</span>
+      </div>
+
+      <div class="sw-panel-scrollable">
+
+        <!-- Selector de Armónico (Modo Normal n) -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name"><i data-lucide="layers" style="width:14px; color:var(--sw-accent-purple);"></i> Armónico ($n$)</span>
+            <span><input type="number" id="input-harmonic" class="sw-param-val-input" min="1" max="10" step="1" value="1"></span>
+          </div>
+          <input type="range" id="slider-harmonic" class="sw-param-slider" min="1" max="10" step="1" value="1">
+
+          <div style="font-size:0.73rem; color:var(--sw-text-muted); margin-top:4px;">Selección rápida de modo:</div>
+          <div class="harmonic-stepper">
+            <button class="harmonic-btn active" data-harmonic="1" title="Modo Fundamental">n=1</button>
+            <button class="harmonic-btn" data-harmonic="2" title="Primer Sobretono">n=2</button>
+            <button class="harmonic-btn" data-harmonic="3" title="Segundo Sobretono">n=3</button>
+            <button class="harmonic-btn" data-harmonic="4" title="Tercer Sobretono">n=4</button>
+            <button class="harmonic-btn" data-harmonic="5" title="Cuarto Sobretono">n=5</button>
+            <button class="harmonic-btn" data-harmonic="6" title="Quinto Sobretono">n=6</button>
+          </div>
+        </div>
+
+        <!-- Tensión en la cuerda (T) -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name">Tensión de cuerda ($T$)</span>
+            <span><input type="number" id="input-tension" class="sw-param-val-input" min="10" max="400" step="1" value="120"> N</span>
+          </div>
+          <input type="range" id="slider-tension" class="sw-param-slider" min="10" max="400" step="1" value="120">
+        </div>
+
+        <!-- Montaje Experimental de Melde: Tensión por Masa Colgante (T = m * g) -->
+        <div class="sw-param-group">
+          <div class="melde-toggle-strip">
+            <label class="sw-check-label" style="margin:0; font-weight:600; cursor:pointer;">
+              <input type="checkbox" id="chk-melde-mode">
+              <span>Modo Exp. de Melde ($T = m \cdot g$)</span>
+            </label>
+            <span class="melde-badge"><i data-lucide="scale" style="width:12px;"></i> Polea & Pesas</span>
+          </div>
+          <div id="melde-controls-box" style="display:none; margin-top:8px; padding:10px; background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:var(--sw-radius-sm);">
+            <div class="sw-param-label-row">
+              <span class="sw-param-name">Masa Colgante ($m$)</span>
+              <span><input type="number" id="input-hanging-mass" class="sw-param-val-input" min="50" max="40000" step="50" value="12238"> g</span>
+            </div>
+            <input type="range" id="slider-hanging-mass" class="sw-param-slider" min="50" max="40000" step="50" value="12238">
+            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono); margin-top:4px;">
+              <span>Masa: <strong id="sw-val-hanging-mass" style="color:var(--sw-accent-amber);">12238 g (12.238 kg)</strong></span>
+              <span>T = mg: <strong id="sw-val-melde-tension" style="color:var(--sw-accent-amber);">120.00 N</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Densidad lineal de masa (mu) -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name">Densidad lineal ($\mu$)</span>
+            <span><input type="number" id="input-density" class="sw-param-val-input" min="0.001" max="0.08" step="0.001" value="0.010"> kg/m</span>
+          </div>
+          <input type="range" id="slider-density" class="sw-param-slider" min="0.001" max="0.08" step="0.001" value="0.010">
+        </div>
+
+        <!-- Longitud de la cuerda (L) -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name">Longitud entre apoyos ($L$)</span>
+            <span><input type="number" id="input-length" class="sw-param-val-input" min="0.5" max="5.0" step="0.1" value="2.0"> m</span>
+          </div>
+          <input type="range" id="slider-length" class="sw-param-slider" min="0.5" max="5.0" step="0.1" value="2.0">
+        </div>
+
+        <!-- Amplitud máxima en antinodos (A) -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name">Amplitud máxima ($A$)</span>
+            <span><input type="number" id="input-amplitude" class="sw-param-val-input" min="0.02" max="0.40" step="0.01" value="0.15"> m</span>
+          </div>
+          <input type="range" id="slider-amplitude" class="sw-param-slider" min="0.02" max="0.40" step="0.01" value="0.15">
+        </div>
+
+        <!-- Presets de Instrumentos y Casos Reales -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row" style="margin-bottom:6px;">
+            <span class="sw-param-name"><i data-lucide="music" style="width:14px; color:var(--sw-accent-amber);"></i> Instrumentos & Presets</span>
+          </div>
+          <div class="preset-pills-wrap">
+            <button class="preset-pill active" data-preset="harmonic-1">Fundamental n=1</button>
+            <button class="preset-pill" data-preset="harmonic-2">Armónico n=2</button>
+            <button class="preset-pill" data-preset="harmonic-3">Armónico n=3</button>
+            <button class="preset-pill" data-preset="guitar-e4">Guitarra Mi4 (330Hz)</button>
+            <button class="preset-pill" data-preset="guitar-e2">Guitarra Mi2 (82Hz)</button>
+            <button class="preset-pill" data-preset="violin-a4">Violín La4 (440Hz)</button>
+            <button class="preset-pill" data-preset="melde-lab">Melde Lab (60Hz)</button>
+          </div>
+        </div>
+
+        <!-- Capas de Visualización Didáctica -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row" style="margin-bottom:6px;">
+            <span class="sw-param-name"><i data-lucide="eye" style="width:14px; color:var(--sw-accent-cyan);"></i> Capas Visuales</span>
+          </div>
+          <div class="sw-checks-list">
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-nodes" checked><span>Mostrar Nodos fijos ($N_m$)</span></label>
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-antinodes" checked><span>Mostrar Vientres / Antinodos ($A_m$)</span></label>
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-envelope" checked><span>Mostrar Envolvente ($\pm A(x)$)</span></label>
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-traveling"><span>Descomponer en 2 Ondas Viajeras ($y_1, y_2$)</span></label>
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-vectors" checked><span>Mostrar Vectores de Velocidad ($v_y$)</span></label>
+            <label class="sw-check-label"><input type="checkbox" id="chk-sw-grid" checked><span>Cuadrícula métrica de precisión</span></label>
+          </div>
+        </div>
+
+        <!-- Control de Volumen Web Audio -->
+        <div class="sw-param-group">
+          <div class="sw-param-label-row">
+            <span class="sw-param-name"><i data-lucide="volume-2" style="width:14px;"></i> Volumen de Tono</span>
+          </div>
+          <input type="range" id="slider-sw-volume" class="sw-param-slider" min="0" max="1" step="0.05" value="0.3">
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         COLUMNA CENTRAL: LIENZO (CANVAS RETINA) Y TRANSPORTE
+         ==================================================================== -->
+    <section class="sw-center-column">
+      <div class="sw-canvas-container">
+        <canvas id="canvas-standing-waves"></canvas>
+
+        <!-- Badge de régimen y armónico -->
+        <div class="sw-canvas-badge">
+          <i data-lucide="activity" style="width:14px;"></i>
+          <span>Onda Estacionaria &bull; Extremos Fijos ($x=0$ y $x=L$)</span>
+        </div>
+
+        <!-- Sonda interactiva HUD (sigue cursor) -->
+        <div class="sw-canvas-probe-hud" id="sw-canvas-probe" style="display:none;">
+          <!-- Llenado dinámico por JS -->
+        </div>
+      </div>
+
+      <!-- Mini Osciloscopio en Tiempo Real de la Sonda y(t) -->
+      <div class="sw-scope-panel">
+        <div class="sw-scope-header">
+          <span><i data-lucide="activity" style="width:13px;"></i> Oscilograma en Vivo de la Sonda $y(t)$ en $x = x_{\text{sonda}}$</span>
+          <span style="color:var(--sw-text-muted); font-size:0.7rem;">Arrastra sobre la cuerda para mover la sonda o puntear</span>
+        </div>
+        <div class="sw-scope-canvas-wrap">
+          <canvas id="canvas-sw-scope"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         COLUMNA DERECHA: REORGANIZACIÓN ESTRUCTURADA DE DATOS Y TELEMETRÍA
+         ==================================================================== -->
+    <aside class="sw-panel sw-right-column">
+      
+      <!-- Panel Matemático: Ecuación y Modo Armónico -->
+      <div class="sw-math-card">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--sw-accent-amber);"><i data-lucide="sigma"></i> Onda Estacionaria</span>
+          <span style="font-size:0.7rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">Extremos Fijos Dirichlet</span>
+        </div>
+
+        <div class="sw-math-formula-box">
+          $$y(x,t) = A \sin(k_n x) \cos(\omega_n t)$$
+        </div>
+
+        <div style="font-size:0.75rem; text-align:center; color:var(--sw-accent-cyan); font-family:var(--sw-font-mono);" id="sw-math-harmonic-formula">
+          f_n = n \cdot \frac{v}{2L}
+        </div>
+      </div>
+
+      <!-- BLOQUE 1: PROPIEDADES ARMÓNICAS DEL MODO (FRECUENCIAS) -->
+      <div class="sw-data-card">
+        <div class="sw-data-card-header">
+          <span class="sw-data-card-title" style="color:var(--sw-accent-amber);">
+            <i data-lucide="music" style="width:13px;"></i> 1. Frecuencias y Modos Armónicos
+          </span>
+          <span style="font-size:0.68rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">SI: Hz, rad/s</span>
+        </div>
+
+        <!-- Métrica destacada: Frecuencia actual fn -->
+        <div class="sw-featured-metric">
+          <div>
+            <div class="sw-featured-label">Frecuencia del Armónico ($f_n$)</div>
+            <div class="sw-featured-formula">f_n = n &bull; v / (2L)</div>
+          </div>
+          <div class="sw-featured-val" id="sw-val-fn">27.39 Hz</div>
+        </div>
+
+        <div class="sw-data-grid">
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Frec. Fundamental ($f_1$)</span>
+            <span class="sw-data-cell-val amber" id="sw-val-f1">27.39 Hz</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Período ($T_n$)</span>
+            <span class="sw-data-cell-val" id="sw-val-period">36.5 ms</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Frec. Angular ($\omega_n$)</span>
+            <span class="sw-data-cell-val" id="sw-val-omega">172.1 rad/s</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Long. de Onda ($\lambda_n$)</span>
+            <span class="sw-data-cell-val" id="sw-val-lambda">4.000 m</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 2: NODOS, VIENTRES Y TOPOLOGÍA ESPACIAL -->
+      <div class="sw-data-card">
+        <div class="sw-data-card-header">
+          <span class="sw-data-card-title" style="color:var(--sw-accent-rose);">
+            <i data-lucide="git-commit" style="width:13px;"></i> 2. Nodos, Vientres y Geometría
+          </span>
+          <span style="font-size:0.68rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">Espacial</span>
+        </div>
+
+        <div class="sw-data-grid">
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Nodos Totales ($n+1$)</span>
+            <span class="sw-data-cell-val rose" id="sw-val-nodes-count">2 nodos</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Vientres / Antinodos ($n$)</span>
+            <span class="sw-data-cell-val gold" id="sw-val-antinodes-count">1 antinodo</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Dist. Internodal ($\lambda/2$)</span>
+            <span class="sw-data-cell-val" id="sw-val-node-dist">2.000 m</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Número de onda ($k$)</span>
+            <span class="sw-data-cell-val" id="sw-val-k">1.57 rad/m</span>
+          </div>
+          <div class="sw-data-cell span-2">
+            <span class="sw-data-cell-label">Masa Total de Cuerda ($M = \mu L$)</span>
+            <span class="sw-data-cell-val" id="sw-val-mass">20.0 g</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 3: RAPIDEZ Y DINÁMICA TRANSVERSAL -->
+      <div class="sw-data-card">
+        <div class="sw-data-card-header">
+          <span class="sw-data-card-title" style="color:var(--sw-accent-purple);">
+            <i data-lucide="wind" style="width:13px;"></i> 3. Cinemática y Dinámica de Onda
+          </span>
+          <span style="font-size:0.68rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">SI: m/s, m/s²</span>
+        </div>
+
+        <!-- Métrica destacada: Rapidez de propagación v -->
+        <div class="sw-featured-metric" style="background:rgba(124,58,237,0.08); border-color:rgba(124,58,237,0.22);">
+          <div>
+            <div class="sw-featured-label">Rapidez de Propagación ($v$)</div>
+            <div class="sw-featured-formula">v = &radic;(T / &mu;)</div>
+          </div>
+          <div class="sw-featured-val purple" id="sw-val-v">109.54 m/s</div>
+        </div>
+
+        <div class="sw-data-grid">
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Vel. Transv. Máx ($v_{y,\text{max}}$)</span>
+            <span class="sw-data-cell-val emerald" id="sw-val-vmax">25.81 m/s</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Acel. Transv. Máx ($a_{y,\text{max}}$)</span>
+            <span class="sw-data-cell-val" id="sw-val-amax">4443.2 m/s²</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 4: BALANCE DE ENERGÍA Y POTENCIA NETA -->
+      <div class="sw-data-card">
+        <div class="sw-data-card-header">
+          <span class="sw-data-card-title" style="color:var(--sw-accent-emerald);">
+            <i data-lucide="zap" style="width:13px;"></i> 4. Balance de Energía & Potencia
+          </span>
+          <span style="font-size:0.68rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">Conservativa</span>
+        </div>
+
+        <div class="sw-data-grid">
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Energía Total Constante ($E$)</span>
+            <span class="sw-data-cell-val emerald" id="sw-val-energy">3.332 J</span>
+          </div>
+          <div class="sw-data-cell">
+            <span class="sw-data-cell-label">Potencia Media Neta ($\langle P \rangle$)</span>
+            <span class="sw-data-cell-val" id="sw-val-power" style="color:#94a3b8;">0.000 W (Nula)</span>
+          </div>
+        </div>
+
+        <div class="sw-energy-box" style="margin-top:4px; padding:8px 10px;">
+          <div class="sw-energy-header">
+            <span style="font-weight:700; color:var(--sw-text-main); font-size:0.73rem;">Intercambio $E_k(t) \leftrightarrow E_p(t)$</span>
+            <span style="color:var(--sw-text-muted); font-size:0.7rem;">Suma = Constante</span>
+          </div>
+          <div class="sw-energy-bar-wrap" style="height:12px; margin:4px 0;">
+            <div class="sw-energy-bar-kinetic" id="sw-bar-kinetic" style="width:50%;"></div>
+            <div class="sw-energy-bar-potential" id="sw-bar-potential" style="width:50%;"></div>
+          </div>
+          <div class="sw-energy-legend" style="font-size:0.7rem;">
+            <span style="color:#10b981;"><span class="legend-dot" style="background:#10b981;"></span>Cinética: <strong id="sw-energy-k-val">0 J</strong></span>
+            <span style="color:#f59e0b;"><span class="legend-dot" style="background:#f59e0b;"></span>Potencial: <strong id="sw-energy-p-val">0 J</strong></span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ========================================================================
+       BARRA FIJA INFERIOR DE DESPLAZAMIENTO TEMPORAL Y CONTROL DE SIMULACIÓN
+       ======================================================================== -->
+  <footer class="sw-transport-dock fixed-bottom-dock">
+    <div class="sw-dock-inner">
+      <!-- Fila 1: Scrubber Desplazador Temporal -->
+      <div class="sw-transport-scrubber-row">
+        <span class="sw-time-display" id="sw-time-display">t = 0.00 s</span>
+        <input type="range" id="sw-time-scrubber" class="sw-scrubber-slider" min="0" max="10" step="0.01" value="0" title="Desplazador temporal (Scrubber)">
+        <div class="sw-transport-btn-group">
+          <button class="btn-sw-transport" id="btn-sw-step-back" title="Paso Atrás (-0.02s) [←]"><i data-lucide="skip-back"></i></button>
+          <button class="btn-sw-transport play-btn" id="btn-sw-play" title="Iniciar / Pausar [Espacio]"><i data-lucide="pause"></i><span>Pausar</span></button>
+          <button class="btn-sw-transport" id="btn-sw-step-fwd" title="Paso Adelante (+0.02s) [→]"><i data-lucide="skip-forward"></i></button>
+          <button class="btn-sw-transport" id="btn-sw-reset" title="Reiniciar a t=0 [R]"><i data-lucide="rotate-ccw"></i><span>Reiniciar</span></button>
+        </div>
+      </div>
+
+      <!-- Fila 2: Velocidades Recomendadas, Personalizada y Atajos -->
+      <div class="sw-transport-controls-row">
+        <div class="sw-speed-subgroup">
+          <span class="speed-badge-title">⚡ Rapidez:</span>
+          <div class="speed-pill-group">
+            <button class="speed-btn active" data-speed="0.03">0.03× Ultra Lenta (Inicial)</button>
+            <button class="speed-btn" data-speed="0.05">0.05× Muy Lenta</button>
+            <button class="speed-btn" data-speed="0.10">0.10× Lenta</button>
+            <button class="speed-btn" data-speed="0.25">0.25× Didáctica</button>
+            <button class="speed-btn" data-speed="0.50">0.50× Normal</button>
+            <button class="speed-btn" data-speed="1.00">1.00× Tiempo Real</button>
+          </div>
+          <div class="speed-custom-row">
+            <span style="font-size:0.72rem; color:var(--sw-text-muted); font-family:var(--sw-font-mono);">Tus números:</span>
+            <input type="range" id="slider-sw-speed" class="sw-param-slider" min="0.01" max="2.00" step="0.01" value="0.03" style="width:90px;">
+            <span><input type="number" id="input-sw-speed" class="sw-param-val-input" min="0.01" max="5.00" step="0.01" value="0.03" style="width:65px;"> ×</span>
+          </div>
+        </div>
+
+        <div class="sw-dock-meta-actions">
+          <span class="sw-keyboard-hint">
+            <kbd>Espacio</kbd> Pausa &bull; <kbd>1-9</kbd> Modos &bull; <kbd>R</kbd> Reinicio &bull; <kbd>M</kbd> Audio
+          </span>
+          <button class="btn-sw-header" id="btn-sw-snapshot" title="Descargar Captura Gráfica PNG del Experimento" style="font-size:0.75rem; padding:5px 12px;">
+            <i data-lucide="camera" style="width:13px; height:13px;"></i>
+            <span>Captura PNG</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALES PEDAGÓGICOS (TRATADO TEÓRICO, GUÍA DIDÁCTICA Y CALCULADORA)
+       ======================================================================== -->
+
+  <!-- Modal 1: Tratado Teórico Completo -->
+  <div class="sw-modal-backdrop" id="sw-modal-theory">
+    <div class="sw-modal-card">
+      <div class="sw-modal-header">
+        <h2 class="sw-modal-title"><i data-lucide="book-open" style="color:var(--sw-accent-purple);"></i> Tratado Teórico: Ondas Estacionarias en Cuerdas Tensas</h2>
+        <button class="sw-modal-close-btn">&times;</button>
+      </div>
+      <div class="sw-modal-body-scroll">
+        <h3>1. Ecuación Diferencial Clásica de d'Alembert</h3>
+        <p>
+          La dinámica transversal de una cuerda homogénea con densidad lineal uniforme $\mu = \frac{M}{L}$ sometida a una tensión horizontal $T$ se describe rigurosamente mediante la ecuación en derivadas parciales de onda:
+        </p>
+        <p style="text-align:center; font-size:1.1rem; color:var(--sw-accent-cyan);">
+          $$\frac{\partial^2 y(x,t)}{\partial x^2} = \frac{1}{v^2}\frac{\partial^2 y(x,t)}{\partial t^2}, \qquad \text{donde } v = \sqrt{\frac{T}{\mu}}$$
+        </p>
+
+        <h3>2. Condiciones de Contorno de Extremos Rígidos (Dirichlet)</h3>
+        <p>
+          Al estar la cuerda rígidamente fijada en ambos extremos ($x = 0$ y $x = L$), el desplazamiento transversal en dichos puntos frontera debe anularse en todo instante de tiempo:
+        </p>
+        <p style="text-align:center;">
+          $$y(0, t) = 0 \quad \text{y} \quad y(L, t) = 0 \qquad \forall t \ge 0$$
+        </p>
+
+        <h3>3. Superposición de Ondas Viajeras e Inversión de Fase</h3>
+        <p>
+          Cuando una onda transversal sinusoidal incide sobre un extremo empotrado fijo, se refleja con una <strong>inversión de fase de $\pi\text{ rad}$ ($180^\circ$)</strong>. La perturbación resultante en la cuerda es la interferencia continua entre la onda incidente hacia la derecha y la onda reflejada hacia la izquierda:
+        </p>
+        <p style="text-align:center;">
+          $$y_1(x,t) = \frac{A}{2} \sin(kx - \omega t), \qquad y_2(x,t) = \frac{A}{2} \sin(kx + \omega t)$$
+          $$y(x,t) = y_1(x,t) + y_2(x,t) = A \sin(kx) \cos(\omega t)$$
+        </p>
+        <p>
+          A diferencia de una onda viajera $y(x,t) = A \sin(kx \mp \omega t)$, en la onda estacionaria la variable espacial $x$ y la temporal $t$ están completamente desacopladas. Las partículas de la cuerda oscilan armónicamente en fase o contrafase con una amplitud modulada espacialmente por la función envolvente $A(x) = A |\sin(kx)|$.
+        </p>
+
+        <h3>4. Cuantización de Modos Normales y Serie de Armónicos</h3>
+        <p>
+          Para que se cumpla la condición en el segundo extremo $y(L, t) = A \sin(k L) \cos(\omega t) = 0$, se requiere inexorablemente:
+        </p>
+        <p style="text-align:center;">
+          $$\sin(k L) = 0 \implies k_n L = n \pi \implies \lambda_n = \frac{2 L}{n}, \quad n \in \{1, 2, 3, \dots\}$$
+        </p>
+        <p>
+          Esto genera la famosa <strong>serie de frecuencias de resonancia armónicas</strong>:
+        </p>
+        <p style="text-align:center; font-size:1.05rem; color:var(--sw-accent-amber);">
+          $$f_n = \frac{v}{\lambda_n} = \frac{n}{2L} \sqrt{\frac{T}{\mu}} = n \cdot f_1$$
+        </p>
+
+        <h3>5. Nodos, Vientres y Conservación de la Energía Mecánica</h3>
+        <p>
+          En los <strong>Nodos</strong> ($\sin(kx) = 0$), las partículas permanecen perpetuamente inmóviles ($y = 0, v_y = 0$). En los <strong>Antinodos</strong> ($|\sin(kx)| = 1$), la oscilación alcanza la elongación máxima $\pm A$.
+        </p>
+        <div class="sw-callout">
+          <strong>Ausencia de Transporte Neto de Potencia:</strong> En una onda estacionaria, la energía viaja simultáneamente hacia adelante y hacia atrás en cantidades exactamente iguales. Como consecuencia, la potencia media transmitida a lo largo de la cuerda es nula: $\langle P \rangle = 0$. La energía total permanece confinada dentro de los husos de la cuerda, intercambiándose cíclicamente entre energía cinética pura (en el cruce por $y=0$) y energía potencial elástica pura (en máxima deformación).
+        </div>
+
+        <h3 style="margin-top:20px; color:var(--sw-accent-amber);"><i data-lucide="calculator"></i> 6. Ejemplos Prácticos de Cátedra Resueltos Paso a Paso</h3>
+        
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(139,92,246,0.25); border-radius:6px; padding:12px; margin-bottom:12px;">
+          <h4 style="color:#a78bfa; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 1: Experimento de Melde en Laboratorio ($L = 2.00\text{ m}, M = 12.238\text{ kg}$)</h4>
+          <p style="margin:4px 0;">Cuerda con $L = 2.00\text{ m}$, masa $m = 20\text{ g}$ ($\mu = 0.010\text{ kg/m}$), tensada por masa suspendida $M = 12.238\text{ kg}$ ($g = 9.807\text{ m/s}^2$):</p>
+          <ul style="margin:6px 0; padding-left:18px;">
+            <li><strong>Tensión mecánica:</strong> $T = M g = (12.238)(9.807) \approx 120.02\text{ N}$.</li>
+            <li><strong>Rapidez de propagación:</strong> $v = \sqrt{T/\mu} = \sqrt{120.02 / 0.010} \approx 109.55\text{ m/s}$.</li>
+            <li><strong>Modo fundamental:</strong> $\lambda_1 = 2L = 4.00\text{ m} \implies f_1 = v / \lambda_1 = 109.55 / 4.00 \approx 27.39\text{ Hz}$.</li>
+            <li><strong>Armónicos cuantizados:</strong> $f_2 = 54.78\text{ Hz}$ ($n=2$), $f_3 = 82.16\text{ Hz}$ ($n=3$), $f_4 = 109.55\text{ Hz}$ ($n=4$), $f_5 = 136.94\text{ Hz}$ ($n=5$).</li>
+            <li><strong>Nodos en $n=3$:</strong> $x_0 = 0.00\text{ m}$, $x_1 = 0.67\text{ m}$, $x_2 = 1.33\text{ m}$, $x_3 = 2.00\text{ m}$.</li>
+          </ul>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(139,92,246,0.25); border-radius:6px; padding:12px; margin-bottom:12px;">
+          <h4 style="color:#a78bfa; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 2: Espectrometría Acústica y Modos Adyacentes ($440\text{ Hz}$ y $550\text{ Hz}$)</h4>
+          <p style="margin:4px 0;">Cuerda de guitarra ($L = 0.640\text{ m}$, $\mu = 3.50\times 10^{-3}\text{ kg/m}$) con resonancias consecutivas a $440\text{ Hz}$ y $550\text{ Hz}$:</p>
+          <ul style="margin:6px 0; padding-left:18px;">
+            <li><strong>Frecuencia fundamental:</strong> $\Delta f = f_{n+1} - f_n = 550.0 - 440.0 = 110.0\text{ Hz} = f_1$.</li>
+            <li><strong>Orden de los armónicos:</strong> $n = 440 / 110 = 4$ (4.º modo) y $n+1 = 5$ (5.º modo).</li>
+            <li><strong>Rapidez y tensión requerida:</strong> $v = 2L f_1 = 2(0.640)(110) = 140.8\text{ m/s} \implies T = \mu v^2 = (0.0035)(140.8)^2 \approx 69.38\text{ N}$.</li>
+          </ul>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(139,92,246,0.25); border-radius:6px; padding:12px; margin-bottom:14px;">
+          <h4 style="color:#a78bfa; margin:0 0 6px 0; font-size:0.92rem;">Ejemplo 3: Almacenamiento de Energía y Demostración de Potencia Nula</h4>
+          <p style="margin:4px 0;">Cuerda del Ejemplo 1 vibrando en $n=3$ ($f_3 = 82.16\text{ Hz}$, $\omega_3 = 516.2\text{ rad/s}$) con amplitud en antinodos $A_{\text{max}} = 0.08\text{ m}$:</p>
+          <ul style="margin:6px 0; padding-left:18px;">
+            <li><strong>Energía total atrapada:</strong> $E_{\text{total}} = \frac{1}{4}\mu \omega_3^2 A_{\text{max}}^2 L = \frac{1}{4}(0.010)(516.2)^2(0.08)^2(2.00) \approx 8.53\text{ J}$.</li>
+            <li><strong>Intercambio cíclico perfecto:</strong> En $t = 0$ ($y=0$ plano), $E_k = 8.53\text{ J}, E_p = 0$. En $t = T/4$ (máxima elongación), $E_k = 0, E_p = 8.53\text{ J}$.</li>
+            <li><strong>Flujo neto cero:</strong> $\langle P \rangle = 0\text{ W}$. La energía no se transporta; permanece oscilando dentro del sistema.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Guía Didáctica y Retos Experimentales -->
+  <div class="sw-modal-backdrop" id="sw-modal-guide">
+    <div class="sw-modal-card">
+      <div class="sw-modal-header">
+        <h2 class="sw-modal-title"><i data-lucide="compass" style="color:var(--sw-accent-cyan);"></i> Guía Didáctica & Retos de Laboratorio</h2>
+        <button class="sw-modal-close-btn">&times;</button>
+      </div>
+      <div class="sw-modal-body-scroll">
+        <h3>Misiones de Exploración Guiada</h3>
+        <ul>
+          <li>
+            <strong>Reto 1 (Relación Tensión-Frecuencia):</strong> Selecciona el modo fundamental ($n=1$) y anota la frecuencia inicial con $T = 100\text{ N}$. Luego cuadruplica la tensión a $T = 400\text{ N}$. ¿Se cuadruplicó la frecuencia o se duplicó? ¿Por qué la dependencia es proporcional a $\sqrt{T}$?
+          </li>
+          <li>
+            <strong>Reto 2 (Conteo de Nodos y Antinodos):</strong> Activa el armónico $n=4$. Identifica visualmente en el lienzo cuántos nodos interiores y cuántos antinodos aparecen. Comprueba que el número total de nodos siempre equivale a $n+1$ y el de antinodos a $n$.
+          </li>
+          <li>
+            <strong>Reto 3 (Descomposición en Ondas Viajeras):</strong> Activa la casilla «Descomponer en 2 Ondas Viajeras». Observa con la animación pausada o a velocidad lenta ($0.25\times$) cómo las crestas de la onda azul y la magenta interfieren constructivamente en los antinodos y destructivamente en los nodos.
+          </li>
+          <li>
+            <strong>Reto 4 (Sonificación Armónica):</strong> Activa el audio con el botón superior. Cambia sucesivamente entre $n=1, n=2, n=3$ y $n=4$. Percibe auditivamente los intervalos musicales: $n=2$ es la octava superior del fundamental, $n=3$ es una quinta perfecta sobre la octava, y $n=4$ es la doble octava.
+          </li>
+        </ul>
+
+        <h3 style="margin-top:24px;"><i data-lucide="award" style="color:var(--sw-accent-emerald);"></i> Retos de Autoevaluación Interactiva</h3>
+        <p style="font-size:0.83rem; color:var(--sw-text-muted);">
+          Calcula tu resultado numérico a partir de las ecuaciones de onda, ingrésalo en la casilla y presiona «Verificar»:
+        </p>
+
+        <!-- Reto 1 -->
+        <div class="sw-challenge-card">
+          <div class="sw-challenge-q">
+            <strong>Reto 1:</strong> Una cuerda de longitud $L = 1.50\text{ m}$ y densidad $\mu = 0.012\text{ kg/m}$ está bajo una tensión de $T = 150\text{ N}$. ¿Cuál es su frecuencia fundamental $f_1$ (en Hz)?
+          </div>
+          <div class="sw-challenge-row">
+            <input type="number" id="input-q1" class="sw-param-val-input" placeholder="Tu respuesta en Hz..." style="width:180px; text-align:left;">
+            <button class="btn-sw-header primary" id="btn-check-q1" style="font-size:0.75rem; padding:6px 12px;">Verificar</button>
+            <span class="sw-challenge-feedback" id="feed-q1"></span>
+          </div>
+        </div>
+
+        <!-- Reto 2 -->
+        <div class="sw-challenge-card">
+          <div class="sw-challenge-q">
+            <strong>Reto 2:</strong> Para afinar una cuerda de guitarra de $L = 0.65\text{ m}$ y $\mu = 0.005\text{ kg/m}$ en su fundamental $f_1 = 110\text{ Hz}$ (nota La2), ¿qué tensión $T$ (en Newtons) se debe aplicar?
+          </div>
+          <div class="sw-challenge-row">
+            <input type="number" id="input-q2" class="sw-param-val-input" placeholder="Tu respuesta en N..." style="width:180px; text-align:left;">
+            <button class="btn-sw-header primary" id="btn-check-q2" style="font-size:0.75rem; padding:6px 12px;">Verificar</button>
+            <span class="sw-challenge-feedback" id="feed-q2"></span>
+          </div>
+        </div>
+
+        <!-- Reto 3 -->
+        <div class="sw-challenge-card">
+          <div class="sw-challenge-q">
+            <strong>Reto 3 (Experimento de Melde):</strong> Un vibrador de $f = 60\text{ Hz}$ excita el armónico $n = 3$ en una cuerda de $L = 1.20\text{ m}$ con $\mu = 0.002\text{ kg/m}$. ¿Qué masa colgante $m$ (en gramos) debe suspenderse de la polea? ($g = 9.8\text{ m/s}^2$).
+          </div>
+          <div class="sw-challenge-row">
+            <input type="number" id="input-q3" class="sw-param-val-input" placeholder="Tu respuesta en gramos..." style="width:180px; text-align:left;">
+            <button class="btn-sw-header primary" id="btn-check-q3" style="font-size:0.75rem; padding:6px 12px;">Verificar</button>
+            <span class="sw-challenge-feedback" id="feed-q3"></span>
+          </div>
+        </div>
+
+        <!-- Reto 4 -->
+        <div class="sw-challenge-card">
+          <div class="sw-challenge-q">
+            <strong>Reto 4 (Topología de Nodos):</strong> Si una cuerda vibra en su sexto armónico ($n = 6$), ¿cuántos <strong>nodos interiores</strong> (sin contar los dos extremos fijos $x=0$ y $x=L$) se observan?
+          </div>
+          <div class="sw-challenge-row">
+            <input type="number" id="input-q4" class="sw-param-val-input" placeholder="Número de nodos..." style="width:180px; text-align:left;">
+            <button class="btn-sw-header primary" id="btn-check-q4" style="font-size:0.75rem; padding:6px 12px;">Verificar</button>
+            <span class="sw-challenge-feedback" id="feed-q4"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Calculadora & Solver de Cuerda -->
+  <div class="sw-modal-backdrop" id="sw-modal-solver">
+    <div class="sw-modal-card">
+      <div class="sw-modal-header">
+        <h2 class="sw-modal-title"><i data-lucide="calculator" style="color:var(--sw-accent-emerald);"></i> Solver de Cuerda Tensada Paso a Paso</h2>
+        <button class="sw-modal-close-btn">&times;</button>
+      </div>
+      <div class="sw-modal-body-scroll">
+        <p style="font-size:0.85rem; color:var(--sw-text-muted); margin-bottom:12px;">
+          Selecciona la incógnita física que deseas despejar, ajusta los valores conocidos y calcula el procedimiento con sustitución completa paso a paso:
+        </p>
+
+        <!-- Tarjeta de Solver Interactivo -->
+        <div class="sw-solver-card">
+          <div class="sw-solver-header">
+            <span style="font-weight:700; font-size:0.88rem; color:var(--sw-accent-emerald);"><i data-lucide="help-circle"></i> Variable a Despejar:</span>
+            <select id="solver-target" class="sw-param-val-input" style="width:auto; padding:6px 12px; font-weight:700; color:#34d399; background:#070d19;">
+              <option value="fn" selected>Frecuencia del Armónico (f_n)</option>
+              <option value="T">Tensión Requerida (T)</option>
+              <option value="mu">Densidad Lineal de Masa (μ)</option>
+              <option value="L">Longitud de la Cuerda (L)</option>
+              <option value="v">Rapidez de Onda (v)</option>
+            </select>
+          </div>
+
+          <div class="sw-solver-grid" id="solver-inputs-grid">
+            <!-- Inyectado dinámicamente según variable seleccionada -->
+          </div>
+
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="btn-sw-header primary" id="btn-calc-solver" style="padding:8px 16px; font-size:0.85rem;">
+              <i data-lucide="play"></i> Resolver Paso a Paso
+            </button>
+          </div>
+
+          <div class="sw-solver-step-box" id="solver-result-box" style="display:none;">
+            <div class="sw-solver-step-title"><i data-lucide="check-circle-2"></i> Procedimiento Analítico y Sustitución</div>
+            <div class="sw-solver-step-formula" id="solver-step-formula"></div>
+            <div class="sw-solver-step-subst" id="solver-step-subst"></div>
+            <div class="sw-solver-step-result" id="solver-step-result"></div>
+
+            <div style="margin-top:12px; border-top:1px solid rgba(16,185,129,0.25); padding-top:10px;">
+              <button class="btn-sw-header" id="btn-apply-solver-to-sim" style="background:linear-gradient(135deg, #059669, #10b981); border:none; color:#fff; font-weight:700; font-size:0.82rem; padding:8px 14px;">
+                <i data-lucide="arrow-right-circle"></i> Aplicar Parámetros a la Simulación
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:20px;">Formulario Canónico de Despeje</h3>
+        <ul style="font-family:var(--sw-font-mono); font-size:0.82rem; color:var(--sw-text-muted);">
+          <li><strong>Tensión $T$:</strong> $$T = \mu \left(\frac{2L f_n}{n}\right)^2$$</li>
+          <li><strong>Densidad lineal $\mu$:</strong> $$\mu = \frac{T}{v^2} = \frac{n^2 T}{4 L^2 f_n^2}$$</li>
+          <li><strong>Longitud $L$:</strong> $$L = \frac{n}{2 f_n} \sqrt{\frac{T}{\mu}}$$</li>
+          <li><strong>Rapidez $v$:</strong> $$v = \sqrt{\frac{T}{\mu}} = \frac{2 L f_n}{n}$$</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: Lucide Icons y KaTeX -->
+  <script src="vendor/katex.min.js"></script>
+  <script src="vendor/auto-render.min.js"></script>
+  <script src="vendor/lucide.min.js"></script>
+  <script>
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+
+  <!-- Script del Simulador -->
+  <script src="js/standing-waves.js?v=11.0"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.standingWavesApp = new StandingWavesSimulator();
+    });
+  </script>
+</body>
+</html>
+

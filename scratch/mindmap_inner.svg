@@ -1,0 +1,84 @@
+<defs>
+  <filter id="mindmapNodeGlow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.7"/>
+  </filter>
+</defs>
+<g id="mindmap-viewport-group" transform="translate(0, 0) scale(1)">
+  <path d="M 450 260 C 315.0 260, 315.0 130, 180 130" stroke="#2563eb" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 180 130 C 130.0 130, 130.0 60, 80 60" stroke="#16a34a" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 260 C 585.0 260, 585.0 130, 720 130" stroke="#8b5a2b" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 720 130 C 780.0 130, 780.0 60, 840 60" stroke="#7a1f29" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 260 C 315.0 260, 315.0 390, 180 390" stroke="#d97706" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 180 390 C 130.0 390, 130.0 460, 80 460" stroke="#b45309" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 260 C 585.0 260, 585.0 390, 720 390" stroke="#7c3aed" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 720 390 C 780.0 390, 780.0 460, 840 460" stroke="#0d6966" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 260 C 450.0 260, 450.0 85, 450 85" stroke="#0284c7" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 85 C 385.0 85, 385.0 30, 320 30" stroke="#0369a1" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 85 C 515.0 85, 515.0 30, 580 30" stroke="#0ea5e9" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <path d="M 450 85 C 450.0 85, 450.0 20, 450 20" stroke="#0284c7" stroke-width="2.5" stroke-opacity="0.65" fill="none"/>
+  <g class="mindmap-node" cursor="pointer" data-id="root">
+    <circle cx="450" cy="260" r="44" fill="#c59b27" stroke="#ffffff" stroke-width="3.5" filter="url(#mindmapNodeGlow)"/>
+    <text x="450" y="264" text-anchor="middle" dominant-baseline="middle" fill="#120e06" font-size="11px" font-weight="700" font-family="Outfit, sans-serif">Movimiento</text>
+    <text x="450" y="318" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Movimiento Oscilatorio & Ondulatorio</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="cinematica">
+    <circle cx="180" cy="130" r="32" fill="#2563eb" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="180" y="133" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="10px" font-weight="700" font-family="Outfit, sans-serif">Cinemática</text>
+    <text x="180" y="176" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Cinemática del M.A.S.</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="velocidad">
+    <circle cx="80" cy="60" r="25" fill="#16a34a" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="80" y="63" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Velocidad</text>
+    <text x="80" y="99" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Velocidad y Aceleración</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="dinamica">
+    <circle cx="720" cy="130" r="32" fill="#8b5a2b" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="720" y="133" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="10px" font-weight="700" font-family="Outfit, sans-serif">Dinámica</text>
+    <text x="720" y="176" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Dinámica & Ecuación Dif.</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="hooke">
+    <circle cx="840" cy="60" r="25" fill="#7a1f29" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="840" y="63" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Ley</text>
+    <text x="840" y="99" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Ley de Hooke</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="sistemas">
+    <circle cx="180" cy="390" r="32" fill="#d97706" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="180" y="393" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="10px" font-weight="700" font-family="Outfit, sans-serif">Sistemas</text>
+    <text x="180" y="436" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Sistemas Físicos</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="pendulo">
+    <circle cx="80" cy="460" r="25" fill="#b45309" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="80" y="463" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Péndulo</text>
+    <text x="80" y="499" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Péndulo Simple</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="energia">
+    <circle cx="720" cy="390" r="32" fill="#7c3aed" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="720" y="393" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="10px" font-weight="700" font-family="Outfit, sans-serif">Conservación</text>
+    <text x="720" y="436" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Conservación de Energía</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="fasores">
+    <circle cx="840" cy="460" r="25" fill="#0d6966" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="840" y="463" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Fasores</text>
+    <text x="840" y="499" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Fasores y Ondas</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="ondas">
+    <circle cx="450" cy="85" r="34" fill="#0284c7" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="450" y="88" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="10px" font-weight="700" font-family="Outfit, sans-serif">Ondas</text>
+    <text x="450" y="133" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Ondas Armónicas</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="dalembert">
+    <circle cx="320" cy="30" r="25" fill="#0369a1" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="320" y="33" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Ecuación</text>
+    <text x="320" y="69" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Ecuación de Onda</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="cinematica-onda">
+    <circle cx="580" cy="30" r="25" fill="#0ea5e9" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="580" y="33" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Cinemática</text>
+    <text x="580" y="69" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Cinemática Transversal</text>
+  </g>
+  <g class="mindmap-node" cursor="pointer" data-id="potencia-onda">
+    <circle cx="450" cy="20" r="23" fill="#0284c7" stroke="#ffffff" stroke-width="2" filter="url(#mindmapNodeGlow)"/>
+    <text x="450" y="23" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-size="9px" font-weight="700" font-family="Outfit, sans-serif">Potencia</text>
+    <text x="450" y="57" text-anchor="middle" fill="#ffffff" font-size="11px" font-weight="600" font-family="Outfit, sans-serif">Potencia & Energía</text>
+  </g>
+</g>
